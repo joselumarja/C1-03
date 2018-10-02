@@ -3,6 +3,8 @@ public class Arista {
 	private long osmid;
 	private String nombre;
 	private double longitud;
+	private long origen;
+	private long destino;
 	
 	public Arista() {
 		
@@ -48,6 +50,34 @@ public class Arista {
 	 */
 	public void setLongitud(double longitud) {
 		this.longitud = longitud;
+	}
+
+	/**
+	 * @return the origen
+	 */
+	public long getOrigen() {
+		return origen;
+	}
+
+	/**
+	 * @param origen the origen to set
+	 */
+	public void setOrigen(long origen) {
+		this.origen = origen;
+	}
+
+	/**
+	 * @return the destino
+	 */
+	public long getDestino() {
+		return destino;
+	}
+
+	/**
+	 * @param destino the destino to set
+	 */
+	public void setDestino(long destino) {
+		this.destino = destino;
 	}
 	
 	
