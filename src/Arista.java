@@ -80,5 +80,11 @@ public class Arista {
 		this.destino = destino;
 	}
 	
+	public boolean IsAdyacentTo(long osmId) {
+		
+		return osmId==this.origen||osmId==this.destino;
+		
+	}
+	
 	
 }
