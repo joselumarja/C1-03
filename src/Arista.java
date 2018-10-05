@@ -1,10 +1,11 @@
+import graphsDSESIUCLM.Element;
 
-public class Arista {
-	private long osmid;
+public class Arista implements Element{
+	private String osmid;
 	private String nombre;
 	private double longitud;
-	private long origen;
-	private long destino;
+	private String origen;
+	private String destino;
 	
 	public Arista() {
 		
@@ -13,14 +14,14 @@ public class Arista {
 	/**
 	 * @return the osmid
 	 */
-	public long getOsmid() {
-		return osmid;
+	public String getID() {
+		return osmid + origen + destino;
 	}
 
 	/**
 	 * @param osmid the osmid to set
 	 */
-	public void setOsmid(long osmid) {
+	public void setOsmid(String osmid) {
 		this.osmid = osmid;
 	}
 
@@ -55,34 +56,34 @@ public class Arista {
 	/**
 	 * @return the origen
 	 */
-	public long getOrigen() {
+	public String getOrigen() {
 		return origen;
 	}
 
 	/**
 	 * @param origen the origen to set
 	 */
-	public void setOrigen(long origen) {
+	public void setOrigen(String origen) {
 		this.origen = origen;
 	}
 
 	/**
 	 * @return the destino
 	 */
-	public long getDestino() {
+	public String getDestino() {
 		return destino;
 	}
 
 	/**
 	 * @param destino the destino to set
 	 */
-	public void setDestino(long destino) {
+	public void setDestino(String destino) {
 		this.destino = destino;
 	}
 	
-	public boolean IsAdyacentTo(long osmId) {
+	public boolean IsAdyacentTo(String osmId) {
 		
-		return osmId==this.origen||osmId==this.destino;
+		return osmId.equals(this.origen);
 		
 	}
 	

@@ -15,31 +15,30 @@ import graphsDSESIUCLM.Vertex;
 
 public class Grafo{
 	
-	private Graph<Punto,Arista> grafo;
+	private Graph grafo;
 	
 	public Grafo(String GraphFile) {
 		initialize(GraphFile);
 	}
 	
-	public boolean perteneceNodo(long osmId) {
+	public boolean perteneceNodo(String osmId) {
 		Iterator<Vertex<Punto>> nodos=grafo.getVertices();
 		
 		while(nodos.hasNext()) {
-			if(nodos.next().getElement().getOsmid()==osmId) {
-				
+			if(nodos.next().getElement().getID().equals(osmId)) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public Punto posicionNodo(long osmId) {
+	public Punto posicionNodo(String osmId) {
 		Iterator<Vertex<Punto>> nodos=grafo.getVertices(); 
 		Punto p=null;
 		while(nodos.hasNext()) {
 			
 			p=nodos.next().getElement();
-			if(p.getOsmid()==osmId) {
+			if(p.getID().equals(osmId)) {
 				return p;
 			}
 		}
@@ -47,7 +46,7 @@ public class Grafo{
 		return null;
 	}
 	
-	public ArrayList<Arista> adyacentesNodo(long osmId) {
+	public ArrayList<Arista> adyacentesNodo(String osmId) {
 		ArrayList<Arista> AristasAdyacentes=new ArrayList<Arista>();
 		
 		Iterator<Edge<Arista>> aristas=grafo.getEdges();

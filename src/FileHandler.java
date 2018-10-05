@@ -9,13 +9,13 @@ import graphsDSESIUCLM.TreeMapGraph;
 import graphsDSESIUCLM.Vertex;
 
 public class FileHandler extends DefaultHandler{
-	private Graph<Punto,Arista> grafo = new TreeMapGraph<Punto,Arista>(); //Grafo del pueblo.
+	private Graph grafo = new TreeMapGraph(); //Grafo del pueblo.
 	private StringBuilder buffer = new StringBuilder(); //Buffer para leer los datos.
 	private Punto punto; //Objeto de la clase Punto, el cual representa un nodo.
 	private Arista arista; //Objeto de la clase Arista, la cual representa una calle.
 	private String tipoData; //Cadena donde guardaremos que tipo de dato estamos leyendo.
 	
-	public Graph<Punto,Arista> getGrafo() {
+	public Graph getGrafo() {
 		return grafo;
 	}
 	
@@ -55,32 +55,41 @@ public class FileHandler extends DefaultHandler{
 				punto.setLongitud(Double.parseDouble(buffer.toString()));
 				break;
 			case "d6":
-				punto.setOsmid(Long.parseLong(buffer.toString())); //Almacenamos en el objeto punto el identificador osmid del nodo.
+				punto.setOsmid(buffer.toString()); //Almacenamos en el objeto punto el identificador osmid del nodo.
 				break;
 			case "d7":
-				arista.setOsmid(Long.parseLong(buffer.toString())); //Almacenamos en el objeto arista el identificador osmid de la calle.
+				if (buffer.toString().charAt(0) == '[') {
+					String [] parts = buffer.toString().substring(1, buffer.toString().length() - 1).split(",");
+					arista.setOsmid(parts[0]);
+				}
+				else arista.setOsmid(buffer.toString()); //Almacenamos en el objeto arista el identificador osmid de la calle.
 				break;
+			case "d13":
 			case "d8":
-				arista.setNombre(buffer.toString()); //Almacenamos en el objeto arista el nombre de la calle.
+				if (buffer.toString().charAt(0) == '[')
+					arista.setNombre(buffer.toString().substring(1, buffer.toString().length() - 1));
+				else arista.setNombre(buffer.toString()); //Almacenamos en el objeto arista el nombre de la calle.
 				break;
 			case "d11":
-				arista.setLongitud(Long.parseLong(buffer.toString())); //Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
+				arista.setLongitud(Double.parseDouble(buffer.toString())); //Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
 				break;
 			}
 			break;
 		case "edge":
+			if(arista.getNombre() == null)
+				arista.setNombre("Sin Nombre");
 			Iterator<Vertex<Punto>> vertices = grafo.getVertices();
 			Vertex<Punto> origen = null, destino = null, temp;
 			while(vertices.hasNext()) { //Buscamos los nodos origen y destino de la calle.
 				temp = vertices.next();
-				if(temp.getElement().getOsmid() == arista.getOrigen()) {
+				if(temp.getElement().getID().equals(arista.getOrigen())) {
 					origen = temp;
 				}
-				else if(temp.getElement().getOsmid() == arista.getDestino()) {
+				else if(temp.getElement().getID().equals(arista.getDestino())) {
 					destino = temp;
 				}
 			}
-			if((origen != null && destino != null) && !grafo.areAdjacent(origen, destino)) { //Comprobamos si existen los nodos en el grafo y si no existe una arista ya.
+			if(origen != null && destino != null) { //Comprobamos si existen los nodos en el grafo y si no existe una arista ya.
 				grafo.insertEdge(origen, destino, arista); //Insertamos en el grafo la calle que ya hemos leido.
 			}
 			break;
@@ -107,8 +116,8 @@ public class FileHandler extends DefaultHandler{
 			break;
 		case "edge":
 			arista = new Arista();
-			arista.setOrigen(Long.parseLong(attributes.getValue("source")));
-			arista.setDestino(Long.parseLong(attributes.getValue("target")));
+			arista.setOrigen(attributes.getValue("source"));
+			arista.setDestino(attributes.getValue("target"));
 			break;
 		}
 	}
