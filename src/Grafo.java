@@ -72,6 +72,7 @@ public class Grafo{
 			saxParser.parse(file, handler); //Llamada al parse para leer el archivo .graphml mediante un manejador.
 			grafo = handler.getGrafo(); //Obtenemos el grafo leido en el archivo .graphml.
 			
+			
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
