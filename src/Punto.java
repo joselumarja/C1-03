@@ -1,5 +1,7 @@
-public class Punto {
-	private long osmid;
+import graphsDSESIUCLM.Element;
+
+public class Punto implements Element{
+	private String osmid;
 	private double longitud;
 	private double latitud;
 	
@@ -10,14 +12,14 @@ public class Punto {
 	/**
 	 * @return the osmid
 	 */
-	public long getOsmid() {
+	public String getID() {
 		return osmid;
 	}
 	
 	/**
 	 * @param osmid the osmid to set
 	 */
-	public void setOsmid(long osmid) {
+	public void setOsmid(String osmid) {
 		this.osmid = osmid;
 	}
 	
