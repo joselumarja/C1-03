@@ -8,7 +8,7 @@ public class main {
 		Scanner sc = new Scanner(System.in);
 		
 		//introducir aqui ruta al fichero del grafo
-		String ruta = "Pueblo.graphml";
+		String ruta = "Villar del Pozo.graphml";
 		
 		Grafo g = new Grafo(ruta);
 		String osmId;
