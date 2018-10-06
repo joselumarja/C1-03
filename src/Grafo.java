@@ -15,7 +15,7 @@ import graphsDSESIUCLM.Vertex;
 
 public class Grafo{
 	
-	private Graph grafo;
+	private Graph<Punto,Arista> grafo;
 	
 	public Grafo(String GraphFile) {
 		initialize(GraphFile);

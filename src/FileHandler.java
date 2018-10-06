@@ -9,13 +9,13 @@ import graphsDSESIUCLM.TreeMapGraph;
 import graphsDSESIUCLM.Vertex;
 
 public class FileHandler extends DefaultHandler{
-	private Graph grafo = new TreeMapGraph(); //Grafo del pueblo.
+	private Graph<Punto,Arista> grafo = new TreeMapGraph<Punto,Arista>(); //Grafo del pueblo.
 	private StringBuilder buffer = new StringBuilder(); //Buffer para leer los datos.
 	private Punto punto; //Objeto de la clase Punto, el cual representa un nodo.
 	private Arista arista; //Objeto de la clase Arista, la cual representa una calle.
 	private String tipoData; //Cadena donde guardaremos que tipo de dato estamos leyendo.
 	
-	public Graph getGrafo() {
+	public Graph<Punto,Arista> getGrafo() {
 		return grafo;
 	}
 	
