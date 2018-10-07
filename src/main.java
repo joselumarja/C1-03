@@ -7,7 +7,7 @@ public class main {
 
 		Scanner sc = new Scanner(System.in);
 		
-		//introducir aqui ruta al fichero del grafo
+		//introducir aqui ruta al fichero del grafo (Villar del Pozo.graphml)
 		System.out.println("Introduce la ruta del fichero");
 		String ruta = sc.nextLine();
 		
@@ -15,10 +15,12 @@ public class main {
 		String osmId;
 
 		if (g != null) {
+			//Funcionalidad 1
 			System.out.println("Introduce un id para comprobar que esta en el grafo");
 			osmId = sc.next();
 			System.out.println(g.perteneceNodo(osmId));
-
+			
+			//Funcionalidad 2
 			System.out.println("Introduce un id para obtener su longitud y latitud en el grafo");
 			osmId = sc.next();
 			Punto p = g.posicionNodo(osmId);
@@ -27,7 +29,8 @@ public class main {
 			} else {
 				System.out.println("El nodo no existe en el grafo");
 			}
-
+			
+			//Funcionalidad 3
 			System.out.println("Introduce un nodo para ver sus aristas");
 			osmId = sc.next();
 			ArrayList<Arista> aristas = g.adyacentesNodo(osmId);

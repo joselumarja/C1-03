@@ -1,9 +1,9 @@
 import graphsDSESIUCLM.Element;
 
 public class Punto implements Element{
-	private String osmid;
-	private double longitud;
-	private double latitud;
+	private String osmid; //OsmId de un nodo.
+	private double longitud; //Longitud de un nodo.
+	private double latitud; //Latitud de un nodo.
 	
 	public Punto() {
 		
@@ -12,7 +12,7 @@ public class Punto implements Element{
 	/**
 	 * @return the osmid
 	 */
-	public String getID() {
+	public String getID() { //Metodo que devuelve un identificador único para representar un vértice en el grafo.
 		return osmid;
 	}
 	

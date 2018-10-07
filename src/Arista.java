@@ -1,20 +1,20 @@
 import graphsDSESIUCLM.Element;
 
 public class Arista implements Element{
-	private String osmid;
-	private String nombre;
-	private double longitud;
-	private String origen;
-	private String destino;
+	private String osmid; //OsmId de una calle.
+	private String nombre; //Nombre de una calle.
+	private double longitud; //Longitud de una calle.
+	private String origen; //Identificador del nodo origen de una calle.
+	private String destino; //Identificador del nodo destino de una calle.
 	
 	public Arista() {
 		
 	}
 
 	/**
-	 * @return the osmid
+	 * @return the osmid + origen + destino
 	 */
-	public String getID() {
+	public String getID() { //Metodo que devuelve un identificador único para representar una union entre dos nodos.
 		return osmid + origen + destino;
 	}
 
@@ -81,7 +81,7 @@ public class Arista implements Element{
 		this.destino = destino;
 	}
 	
-	public boolean IsAdyacentTo(String osmId) {
+	public boolean IsAdyacentTo(String osmId) { //Comprueba si el osmId de un nodo es origen de una arista. 
 		
 		return osmId.equals(this.origen);
 		

@@ -58,7 +58,7 @@ public class FileHandler extends DefaultHandler{
 				punto.setOsmid(buffer.toString()); //Almacenamos en el objeto punto el identificador osmid del nodo.
 				break;
 			case "d7":
-				if (buffer.toString().charAt(0) == '[') {
+				if (buffer.toString().charAt(0) == '[') { //En el caso de que haya varios cogeremos solo el primero.
 					String [] parts = buffer.toString().substring(1, buffer.toString().length() - 1).split(",");
 					arista.setOsmid(parts[0]);
 				}
@@ -66,7 +66,8 @@ public class FileHandler extends DefaultHandler{
 				break;
 			case "d13":
 			case "d8":
-				if (buffer.toString().charAt(0) == '[')
+				if (buffer.toString().charAt(0) == '[') //En el caso de que haya varios cogeremos la cadena entera
+														//representado el camino a realizar.
 					arista.setNombre(buffer.toString().substring(1, buffer.toString().length() - 1));
 				else arista.setNombre(buffer.toString()); //Almacenamos en el objeto arista el nombre de la calle.
 				break;
@@ -76,7 +77,7 @@ public class FileHandler extends DefaultHandler{
 			}
 			break;
 		case "edge":
-			if(arista.getNombre() == null)
+			if(arista.getNombre() == null) //Si en el archivo no se ha especificado el nombre de una arista se le pondra 'Sin Nombre'.
 				arista.setNombre("Sin Nombre");
 			Iterator<Vertex<Punto>> vertices = grafo.getVertices();
 			Vertex<Punto> origen = null, destino = null, temp;
@@ -116,8 +117,8 @@ public class FileHandler extends DefaultHandler{
 			break;
 		case "edge":
 			arista = new Arista();
-			arista.setOrigen(attributes.getValue("source"));
-			arista.setDestino(attributes.getValue("target"));
+			arista.setOrigen(attributes.getValue("source")); //Guardamos en el atributo 'origen' el osmId del nodo origen de una arista.
+			arista.setDestino(attributes.getValue("target")); //Guardamos en el atributo 'destino' el osmId del nodo destino de una arista.
 			break;
 		}
 	}
