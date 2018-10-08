@@ -65,7 +65,7 @@ public class FileHandler extends DefaultHandler{
 				else arista.setOsmid(buffer.toString()); //Almacenamos en el objeto arista el identificador osmid de la calle.
 				break;
 			case "d13":
-			case "d8":
+			case "d14":
 				if (buffer.toString().charAt(0) == '[') //En el caso de que haya varios cogeremos la cadena entera
 														//representado el camino a realizar.
 					arista.setNombre(buffer.toString().substring(1, buffer.toString().length() - 1));
