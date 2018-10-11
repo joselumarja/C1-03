@@ -14,6 +14,7 @@ public class FileHandler extends DefaultHandler{
 	private Punto punto; //Objeto de la clase Punto, el cual representa un nodo.
 	private Arista arista; //Objeto de la clase Arista, la cual representa una calle.
 	private String tipoData; //Cadena donde guardaremos que tipo de dato estamos leyendo.
+	private String nombre_d, latitud_d, longitud_d, n_osmid_d, e_osmid_d, distancia_d, ref_d;
 	
 	public Graph<Punto,Arista> getGrafo() {
 		return grafo;
@@ -47,7 +48,32 @@ public class FileHandler extends DefaultHandler{
 			grafo.insertVertex(punto); //Insertamos en el grafo el nodo que ya hemos leido.
 			break;
 		case "data":
-			switch(tipoData) { //Dependiendo de cual sea el tipo realizamos una acción:
+			if(tipoData.equals(latitud_d)) {
+				punto.setLatitud(Double.parseDouble(buffer.toString()));//Almacenamos en el objeto punto la latitud del nodo.
+			}
+			else if(tipoData.equals(longitud_d)) {
+				punto.setLongitud(Double.parseDouble(buffer.toString()));//Almacenamos en el objeto punto la longitud del nodo.
+			}
+			else if(tipoData.equals(n_osmid_d)) {
+				punto.setOsmid(buffer.toString());//Almacenamos en el objeto punto el identificador osmid del nodo.
+			}
+			else if(tipoData.equals(e_osmid_d)) {
+				if (buffer.toString().charAt(0) == '[') { //En el caso de que haya varios cogeremos solo el primero.
+					String [] parts = buffer.toString().substring(1, buffer.toString().length() - 1).split(",");
+					arista.setOsmid(parts[0]);
+				}
+				else arista.setOsmid(buffer.toString());
+			}
+			else if((tipoData.equals(nombre_d)) || ((tipoData.equals(ref_d)))) {
+				if (buffer.toString().charAt(0) == '[') //En el caso de que haya varios cogeremos la cadena entera
+					//representado el camino a realizar.
+					arista.setNombre(buffer.toString().substring(1, buffer.toString().length() - 1));
+				else arista.setNombre(buffer.toString());//Almacenamos en el objeto arista el identificador osmid de la calle.
+			}
+			else if(tipoData.equals(distancia_d)) {
+				arista.setLongitud(Double.parseDouble(buffer.toString()));//Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
+			}
+			/*switch(tipoData) { //Dependiendo de cual sea el tipo realizamos una acción:
 			case "d4": //Almacenamos en el objeto punto la latitud del nodo.
 				punto.setLatitud(Double.parseDouble(buffer.toString()));
 				break; 
@@ -74,7 +100,7 @@ public class FileHandler extends DefaultHandler{
 			case "d11":
 				arista.setLongitud(Double.parseDouble(buffer.toString())); //Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
 				break;
-			}
+			}*/
 			break;
 		case "edge":
 			if(arista.getNombre() == null) //Si en el archivo no se ha especificado el nombre de una arista se le pondra 'Sin Nombre'.
@@ -108,6 +134,39 @@ public class FileHandler extends DefaultHandler{
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		// TODO Auto-generated method stub
 		switch(qName) {
+		case "key":
+			String val_atrib = attributes.getValue("attr.name");
+			String uso = attributes.getValue("for");
+			
+			switch(val_atrib) {
+			case "name"  :
+				if(uso.equals("edge")) {
+					nombre_d = attributes.getValue("id");
+				}
+				break;
+			case "x":
+				longitud_d = attributes.getValue("id");
+				break;
+			case "y":
+				latitud_d = attributes.getValue("id");
+				break;
+			case "osmid":
+				if(uso.equals("node")) {
+					n_osmid_d = attributes.getValue("id");
+				}else {
+					e_osmid_d = attributes.getValue("id");
+				}
+				break;
+			case "length":
+				distancia_d = attributes.getValue("id");
+				break;
+			case "ref":
+				if(uso.equals("edge")) {
+					ref_d = attributes.getValue("id");
+				}
+				break;
+			}
+			break;
 		case "node":
 			punto = new Punto(); //Guardamos memoria para el objeto punto.
 			break;
