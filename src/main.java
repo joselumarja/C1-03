@@ -7,9 +7,10 @@ public class main {
 
 		Scanner sc = new Scanner(System.in);
 		
-		//introducir aqui ruta al fichero del grafo (Villar del Pozo.graphml)
-		System.out.println("Introduce la ruta del fichero");
+		//introducir aqui ruta al fichero del grafo
+		System.out.println("Introduce la ruta del fichero (terminación con .graphml.xml)");
 		String ruta = sc.nextLine();
+		ruta = "data\\" + ruta;
 		
 		Grafo g = new Grafo(ruta);
 		String osmId;
