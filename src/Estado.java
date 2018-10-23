@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Estado {
+public class Estado implements Cloneable{
 	private Punto node;
 	private ArrayList<String> listNodes;
 	private String id;
@@ -19,9 +19,14 @@ public class Estado {
 		return id;
 	}
 
+	public ArrayList<String> getListNodes() {
+		return listNodes;
+	}
+
 	public void ChangeState(Punto node) {
 		this.node = node;
 		listNodes.remove(node.getID());
+		UpdateId();
 	}
 
 	public void UpdateId() {
@@ -49,4 +54,14 @@ public class Estado {
 		return null;
 	}
 
+	protected Object clone() {
+		// TODO Auto-generated method stub
+		Object obj = null;
+		try {
+			obj = super.clone();
+		} catch (CloneNotSupportedException ex) {
+			System.out.println("No se puede duplicar");
+		}
+		return obj;
+	}
 }

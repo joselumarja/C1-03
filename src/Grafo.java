@@ -25,6 +25,13 @@ public class Grafo{
 		initialize(GraphFile);
 	}
 	
+	/**
+	 * @return the grafo
+	 */
+	public Graph<Punto, Arista> getGrafo() {
+		return grafo;
+	}
+
 	/*
 	 * Funcionalidad 1: Comprueba si el identificador de un nodo pertenece al grafo creado del pueblo.
 	 * Devuelve true si existe y false en caso contrario.
@@ -43,7 +50,7 @@ public class Grafo{
 	/*
 	 * Funcionalidad 2: Nos da la longitud y latitud de un nodo del grafo.
 	 * Devuelve un objeto de la clase Punto en el caso caso de que el identificador exista en el
-	 * grafo del pueblo, en caso contrario devolverá un null.
+	 * grafo del pueblo, en caso contrario devolverï¿½ un null.
 	 */
 	public Punto posicionNodo(String osmId) {
 		Iterator<Vertex<Punto>> nodos=grafo.getVertices(); //Obtenemos todos los vertices de un grafo.
