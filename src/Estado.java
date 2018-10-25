@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class Estado implements Cloneable{
-	private Punto node;
-	private ArrayList<String> listNodes;
-	private String id;
+	private Punto node; //Nodo del estado
+	private ArrayList<String> listNodes; //Lista de identificadores osmid de nodos que se desean visitar
+	private String id; //Identificador encriptado en MD5 del estado actual
 
 	public Estado(Punto node, ArrayList<String> listNodes, String id) {
 		this.node = node;
@@ -23,12 +23,14 @@ public class Estado implements Cloneable{
 		return listNodes;
 	}
 
+	//Cambia el estado actual dependiendo del nodo al cual queremos llegar
 	public void ChangeState(Punto node) {
 		this.node = node;
 		listNodes.remove(node.getID());
 		UpdateId();
 	}
 
+	//Actualiza el identificador 'id' del estado acutal
 	public void UpdateId() {
 
 		String Concat = node.getID();
@@ -40,6 +42,7 @@ public class Estado implements Cloneable{
 		id = MD5(Concat);
 	}
 
+	//Encripta el estado acutal en MD5
 	public String MD5(String md5) {
 		try {
 			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -54,6 +57,7 @@ public class Estado implements Cloneable{
 		return null;
 	}
 
+	//Metodo para clonar el contenido de un objeto de esta clase
 	protected Object clone() {
 		// TODO Auto-generated method stub
 		Object obj = null;

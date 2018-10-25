@@ -1,8 +1,8 @@
 
 public class Sucesor {
-	private String accion;
-	private Estado estadoNuevo;
-	private double coste;
+	private String accion; //String que representa la acción para llegar a otro estado
+	private Estado estadoNuevo; //Estado nuevo a partir del cual llegamos realizando la acción anterior
+	private double coste; //Coste para llegar al estado nuevo realizando la acción anterior
 	
 	public Sucesor(String accion, Estado estadoNuevo, double coste) {
 		this.accion = accion;
