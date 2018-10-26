@@ -61,4 +61,8 @@ public class Problema {
 		this.estadoInicial = new Estado(this.espacioDeEstados.getGrafo().getGrafo().getVertex(node).getElement(), list, id);
 	}
 	
+	public boolean esObjetivo(Estado e) {
+		return e.getListNodes().isEmpty();
+	}
+	
 }
