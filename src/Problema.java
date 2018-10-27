@@ -66,7 +66,7 @@ public class Problema {
 		return e.getListNodes().isEmpty();
 	}
 	
-	public boolean esVisitado(Nodo nodo) {
+	public boolean esVisitado(Nodo nodo) { //Metodo que comprueba si un nodo ya ha sido visitado
 		boolean visitado;
 		if(!recorridos.contains(nodo.GetEstado().GetNode().getID())) {
 			visitado = false;
@@ -76,7 +76,7 @@ public class Problema {
 		return visitado;
 	}
 	
-	public void añadirVisitado(Nodo nodo) {
+	public void añadirVisitado(Nodo nodo) { //Metodo que añade un nodo a la lista de nodos visitados
 		recorridos.add(nodo.GetEstado().GetNode().getID());
 	}
 	

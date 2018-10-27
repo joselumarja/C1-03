@@ -54,26 +54,26 @@ public class main {
 			}
 		}
 		
-		if(EspEst.esta(estado)) {
+		if(EspEst.esta(estado)) { //Priemro comprobamos que el estado inicial sea posible en el espacio de estados
 			System.out.println("El nodo y sus nodos por recorrer pertenecen al grafo");
  
 			frontera.Insertar(new Nodo(null, estado, 0, 0, 0));//Nodo inicial
 			int profundidad = 1;
 			
-			while(!problema.esObjetivo(estado) && !frontera.EsVacia()){
+			while(!problema.esObjetivo(estado) && !frontera.EsVacia()){ //Mientras que queden nodos por recorrer o nodos en la frontera se ejecutara el programa
 				System.out.println("\n" + frontera.toString());
-				nodo = frontera.Elimina();
-				estado = nodo.GetEstado();
+				nodo = frontera.Elimina(); //Extraemos de la frontera el nodo con menor f
+				estado = nodo.GetEstado(); //Extraemos el estado del nodo
 				System.out.println("*****Nodo Seleccionado de la frontera: "+estado.GetNode().getID() + "*****");
 				System.out.println(estado.toString());
-				problema.añadirVisitado(nodo);
-				sucesores = EspEst.sucesores(estado);
+				problema.añadirVisitado(nodo); //Añadimos el nodo seleccionado a la lista de nodos visitados
+				sucesores = EspEst.sucesores(estado); //Calculamos los nodos sucesores del nodo elegido
 				
-				for (Sucesor s : sucesores) {
+				for (Sucesor s : sucesores) { //Recorremos la lista de nodos sucesores y los introducimos en la frontera
 					int f = rand.nextInt(100) + 1;
 					nodoSuc = new Nodo(nodo, s.getEstadoNuevo(), s.getCoste(), profundidad, f);
 					//Antes de insertar se comprueba si el nodo ha sido visitado
-					boolean visitado = problema.esVisitado(nodoSuc);
+					boolean visitado = problema.esVisitado(nodoSuc); //Comprobamos si el nodo sucesor ya ha sido visitado, de ser asi no se introduce en la frontera
 					if(visitado == false) {
 						System.out.println(s.getAccion());
 						frontera.Insertar(nodoSuc);

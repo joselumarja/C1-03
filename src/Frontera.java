@@ -15,7 +15,7 @@ public class Frontera{
 	
 	public void Insertar(Nodo nuevo) {
 		frontera.add(nuevo);
-		Collections.sort(frontera,new OrdenarNodof());
+		Collections.sort(frontera,new OrdenarNodof()); //Una vez añadimos un nuevo elemento a la frontera debemos de reordenarla
 	}
 	
 	public Nodo Elimina() {
@@ -33,19 +33,5 @@ public class Frontera{
 		}
 		return nodosFron;
 	}
-//	@Override
-	/*Comparador de ordenacion de la frontera*/
-//	public int compare(Nodo n1, Nodo n2) {
-//		if (n1.GetF() < n2.GetF()) {
-//			
-//			return -1;
-//			
-//		} else if (n1.GetF() > n2.GetF()) {
-//			
-//			return 1;
-//		}
-//	
-//		return 0;
-//	}
 
 }
