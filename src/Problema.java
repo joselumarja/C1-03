@@ -13,6 +13,7 @@ import com.google.gson.JsonParser;
 public class Problema {
 	private EspacioDeEstados espacioDeEstados; //Espacio de estados del problema
 	private Estado estadoInicial; //Estado inicial por el que empieza el problema
+	private ArrayList<String> recorridos = new ArrayList <String>();
 	
 	public Problema() {
 		leerProblema();
@@ -55,7 +56,7 @@ public class Problema {
 		for (JsonElement nodo : lista) {
             list.add(nodo.getAsString());
         }
-		
+		path = path + ".xml";
 		this.espacioDeEstados = new EspacioDeEstados(path); //Creamos el espacio de estados a partir del nombre del archivo .graphml a leer
 		//Creamos el estado inicial a partir del nodo inicial, la lista de nodos por visitar y el identificador del estado en MD5
 		this.estadoInicial = new Estado(this.espacioDeEstados.getGrafo().getGrafo().getVertex(node).getElement(), list, id);
@@ -65,4 +66,26 @@ public class Problema {
 		return e.getListNodes().isEmpty();
 	}
 	
+	public boolean esVisitado(Nodo nodo) {
+		boolean visitado;
+		if(!recorridos.contains(nodo.GetEstado().GetNode().getID())) {
+			visitado = false;
+		}else {
+			visitado = true;
+			System.out.println("Nodo ya visitado");
+		}
+		return visitado;
+	}
+	
+	public void añadirVisitado(Nodo nodo) {
+		recorridos.add(nodo.GetEstado().GetNode().getID());
+	}
+	
+	public EspacioDeEstados getEspacioDeEstados() {
+		return espacioDeEstados;
+	}
+	
+	public Estado getEstadoIn() {
+		return estadoInicial;
+	}
 }

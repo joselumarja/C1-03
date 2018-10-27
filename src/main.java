@@ -1,18 +1,27 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random; 
 
 public class main {
 
 	public static void main(String args[]) {
 
 		Scanner sc = new Scanner(System.in);
+		Problema problema = new Problema();
+		EspacioDeEstados EspEst = problema.getEspacioDeEstados();
+		Estado estado = problema.getEstadoIn();
+		ArrayList<Sucesor> sucesores;
+		Frontera frontera = new Frontera();
+		Nodo nodo, nodoSuc;
+		Random rand = new Random();
 		
 		//introducir aqui ruta al fichero del grafo
-		System.out.println("Introduce la ruta del fichero (terminación con .graphml.xml)");
+		/*System.out.println("Introduce la ruta del fichero (terminación con .graphml.xml)");
 		String ruta = sc.nextLine();
 		ruta = "data\\" + ruta;
 		
-		Grafo g = new Grafo(ruta);
+		Grafo g = new Grafo(ruta);*/
+		Grafo g = EspEst.getGrafo();
 		String osmId;
 
 		if (g != null) {
@@ -44,6 +53,35 @@ public class main {
 				System.out.println("Error, el nodo introducido no tiene aristas o no existe");
 			}
 		}
-
+		
+		if(EspEst.esta(estado)) {
+			System.out.println("El nodo y sus nodos por recorrer pertenecen al grafo");
+ 
+			frontera.Insertar(new Nodo(null, estado, 0, 0, 0));//Nodo inicial
+			int profundidad = 1;
+			
+			while(!problema.esObjetivo(estado) && !frontera.EsVacia()){
+				System.out.println(frontera.toString());
+				nodo = frontera.Elimina();
+				estado = nodo.GetEstado();
+				problema.a�adirVisitado(nodo);
+				sucesores = EspEst.sucesores(estado);
+				for (Sucesor s : sucesores) {
+					
+					int f = rand.nextInt(100) + 1;
+					nodoSuc = new Nodo(nodo, s.getEstadoNuevo(), s.getCoste(), profundidad, f);
+					//Antes de insertar se comprueba si el nodo ha sido visitado
+					boolean visitado = problema.esVisitado(nodoSuc);
+					if(visitado == false) {
+						System.out.println(s.getAccion());
+						frontera.Insertar(nodoSuc);
+					}
+				}
+				
+				profundidad++;
+			}
+			System.out.println("Se han visitado todos los nodos objetivo o la frontera esta vacia");
+		}
+		sc.close();
 	}
 }

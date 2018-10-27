@@ -9,4 +9,16 @@ public class Sucesor {
 		this.estadoNuevo = estadoNuevo;
 		this.coste = coste;
 	}
+	
+	public String getAccion() {
+		return accion;
+	}
+	
+	public Estado getEstadoNuevo() {
+		return estadoNuevo;
+	}
+	
+	public double getCoste() {
+		return coste;
+	}
 }
