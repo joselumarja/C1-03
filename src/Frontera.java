@@ -27,7 +27,7 @@ public class Frontera{
 	}
 	
 	public String toString() {
-		String nodosFron = "***Frontera: ";
+		String nodosFron = "+++++Frontera: ";
 		for(Nodo n : frontera) {
 			nodosFron += n.GetEstado().GetNode().getID().toString() + " ";
 		}

@@ -68,4 +68,12 @@ public class Estado implements Cloneable{
 		}
 		return obj;
 	}
+	
+	public String toString() {
+		String listaRec = "-----Nodos por recorrer: ";
+		for(String s : listNodes) {
+			listaRec += s.toString() + " ";
+		}
+		return listaRec;
+	}
 }

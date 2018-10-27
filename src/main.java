@@ -61,13 +61,15 @@ public class main {
 			int profundidad = 1;
 			
 			while(!problema.esObjetivo(estado) && !frontera.EsVacia()){
-				System.out.println(frontera.toString());
+				System.out.println("\n" + frontera.toString());
 				nodo = frontera.Elimina();
 				estado = nodo.GetEstado();
+				System.out.println("*****Nodo Seleccionado de la frontera: "+estado.GetNode().getID() + "*****");
+				System.out.println(estado.toString());
 				problema.añadirVisitado(nodo);
 				sucesores = EspEst.sucesores(estado);
+				
 				for (Sucesor s : sucesores) {
-					
 					int f = rand.nextInt(100) + 1;
 					nodoSuc = new Nodo(nodo, s.getEstadoNuevo(), s.getCoste(), profundidad, f);
 					//Antes de insertar se comprueba si el nodo ha sido visitado
@@ -77,7 +79,6 @@ public class main {
 						frontera.Insertar(nodoSuc);
 					}
 				}
-				
 				profundidad++;
 			}
 			System.out.println("Se han visitado todos los nodos objetivo o la frontera esta vacia");

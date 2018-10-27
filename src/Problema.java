@@ -72,7 +72,6 @@ public class Problema {
 			visitado = false;
 		}else {
 			visitado = true;
-			System.out.println("Nodo ya visitado");
 		}
 		return visitado;
 	}
