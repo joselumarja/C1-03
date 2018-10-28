@@ -67,24 +67,14 @@ public class Problema {
 	}
 	
 	public boolean esVisitado(Nodo nodo) { //Metodo que comprueba si un nodo ya ha sido visitado
-		boolean visitado;
-		if(!recorridos.contains(nodo.GetEstado().GetNode().getID())) {
-			visitado = false;
-		}else {
-			visitado = true;
-		}
-		return visitado;
-	}
-	
-	public boolean comprobarMejor(Nodo nodo) {
+		boolean visitado = false;
 		for(int i = 0; i < recorridos.size(); i++) {
-			if((recorridos.get(i).GetNode().getID() == nodo.GetEstado().GetNode().getID()) && recorridos.get(i).getListNodes().size() > nodo.GetEstado().getListNodes().size()) {
-				recorridos.remove(i);
-				recorridos.add(nodo.GetEstado());
-				return true;
+			if(recorridos.get(i).GetNode().getID() == nodo.GetEstado().GetNode().getID()) {
+				visitado = true;
+				break;
 			}
 		}
-		return false;
+		return visitado;
 	}
 	
 	public void añadirVisitado(Nodo nodo) { //Metodo que a�ade un nodo a la lista de nodos visitados

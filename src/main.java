@@ -80,10 +80,6 @@ public class main {
 						problema.añadirVisitado(nodoSuc); //A�adimos el nodo seleccionado a la lista de nodos visitados
 						System.out.println(s.getAccion());
 						frontera.Insertar(nodoSuc);
-					} else {
-						if (problema.comprobarMejor(nodoSuc)) {
-							frontera.Insertar(nodoSuc);
-						}
 					}
 				}
 				profundidad++;
