@@ -13,7 +13,7 @@ import com.google.gson.JsonParser;
 public class Problema {
 	private EspacioDeEstados espacioDeEstados; //Espacio de estados del problema
 	private Estado estadoInicial; //Estado inicial por el que empieza el problema
-	private ArrayList<String> recorridos = new ArrayList <String>();
+	private ArrayList<Estado> recorridos = new ArrayList <Estado>();
 	
 	public Problema() {
 		leerProblema();
@@ -76,8 +76,19 @@ public class Problema {
 		return visitado;
 	}
 	
-	public void añadirVisitado(Nodo nodo) { //Metodo que añade un nodo a la lista de nodos visitados
-		recorridos.add(nodo.GetEstado().GetNode().getID());
+	public boolean comprobarMejor(Nodo nodo) {
+		for(int i = 0; i < recorridos.size(); i++) {
+			if((recorridos.get(i).GetNode().getID() == nodo.GetEstado().GetNode().getID()) && recorridos.get(i).getListNodes().size() > nodo.GetEstado().getListNodes().size()) {
+				recorridos.remove(i);
+				recorridos.add(nodo.GetEstado());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void aÃ±adirVisitado(Nodo nodo) { //Metodo que aï¿½ade un nodo a la lista de nodos visitados
+		recorridos.add(nodo.GetEstado());
 	}
 	
 	public EspacioDeEstados getEspacioDeEstados() {

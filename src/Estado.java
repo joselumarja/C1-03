@@ -56,18 +56,6 @@ public class Estado implements Cloneable{
 		}
 		return null;
 	}
-
-	//Metodo para clonar el contenido de un objeto de esta clase
-	protected Object clone() {
-		// TODO Auto-generated method stub
-		Object obj = null;
-		try {
-			obj = super.clone();
-		} catch (CloneNotSupportedException ex) {
-			System.out.println("No se puede duplicar");
-		}
-		return obj;
-	}
 	
 	public String toString() {
 		String listaRec = "-----Nodos por recorrer: ";

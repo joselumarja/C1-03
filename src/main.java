@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.Random; 
 
 public class main {
@@ -12,7 +13,7 @@ public class main {
 		Estado estado = problema.getEstadoIn();
 		ArrayList<Sucesor> sucesores;
 		Frontera frontera = new Frontera();
-		Nodo nodo, nodoSuc;
+		Nodo nodo = null, nodoSuc;
 		Random rand = new Random();
 		
 		//introducir aqui ruta al fichero del grafo
@@ -23,7 +24,8 @@ public class main {
 		Grafo g = new Grafo(ruta);*/
 		Grafo g = EspEst.getGrafo();
 		String osmId;
-
+		
+		/*
 		if (g != null) {
 			//Funcionalidad 1
 			System.out.println("Introduce un id para comprobar que esta en el grafo");
@@ -53,6 +55,7 @@ public class main {
 				System.out.println("Error, el nodo introducido no tiene aristas o no existe");
 			}
 		}
+		*/
 		
 		if(EspEst.esta(estado)) { //Priemro comprobamos que el estado inicial sea posible en el espacio de estados
 			System.out.println("El nodo y sus nodos por recorrer pertenecen al grafo");
@@ -66,7 +69,6 @@ public class main {
 				estado = nodo.GetEstado(); //Extraemos el estado del nodo
 				System.out.println("*****Nodo Seleccionado de la frontera: "+estado.GetNode().getID() + "*****");
 				System.out.println(estado.toString());
-				problema.añadirVisitado(nodo); //Añadimos el nodo seleccionado a la lista de nodos visitados
 				sucesores = EspEst.sucesores(estado); //Calculamos los nodos sucesores del nodo elegido
 				
 				for (Sucesor s : sucesores) { //Recorremos la lista de nodos sucesores y los introducimos en la frontera
@@ -75,14 +77,35 @@ public class main {
 					//Antes de insertar se comprueba si el nodo ha sido visitado
 					boolean visitado = problema.esVisitado(nodoSuc); //Comprobamos si el nodo sucesor ya ha sido visitado, de ser asi no se introduce en la frontera
 					if(visitado == false) {
+						problema.aÃ±adirVisitado(nodoSuc); //Aï¿½adimos el nodo seleccionado a la lista de nodos visitados
 						System.out.println(s.getAccion());
 						frontera.Insertar(nodoSuc);
+					} else {
+						if (problema.comprobarMejor(nodoSuc)) {
+							frontera.Insertar(nodoSuc);
+						}
 					}
 				}
 				profundidad++;
 			}
-			System.out.println("Se han visitado todos los nodos objetivo o la frontera esta vacia");
+			if(problema.esObjetivo(estado)) {
+				System.out.println("Se ha llegado a un nodo objetivo, camino:");
+				Stack<Nodo> camino = obtenerSolucion(nodo);
+				while (!camino.isEmpty()) {
+					System.out.print(camino.pop().GetEstado().GetNode().getID());
+				}
+			} else System.out.println("La frontera esta vacia y no se ha podido encontrar una soluciÃ³n");
+			
 		}
 		sc.close();
+	}
+
+	public static Stack<Nodo> obtenerSolucion(Nodo nodo) {
+		Stack<Nodo> camino = new Stack<Nodo>();
+		while (nodo != null) {
+			camino.push(nodo);
+			nodo = nodo.getPadre();
+		}
+		return camino;
 	}
 }

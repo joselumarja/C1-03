@@ -10,11 +10,15 @@ public class Nodo{
 	public Nodo(Nodo Padre, Estado Est, double Camino, int P, int F) {
 		this.Padre = Padre;
 		this.Est = Est;
-		this.Camino = Camino;
 		this.P = P;
 		this.F = F;
+		if (Padre == null) this.Camino = Camino;
+		else this.Camino = Padre.Camino + Camino;
 	}
 
+	public Nodo getPadre() {
+		return Padre;
+	}
 	public int GetF() {
 		return F;
 	}

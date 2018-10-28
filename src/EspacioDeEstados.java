@@ -23,8 +23,10 @@ public class EspacioDeEstados {
 		ArrayList<Sucesor> sucesores = new ArrayList<Sucesor>();
 		//Obtenemos todos los caminos adyacentes al punto del estado acutal
 		ArrayList<Arista> AristasAdyacentes=grafo.adyacentesNodo(estado.GetNode().getID());
+		Estado nuevoEstado;
 		for (Arista a : AristasAdyacentes) { //Recorremos todas las aristas adyacentes al nodo del estado actual
-			Estado nuevoEstado = (Estado) estado.clone(); //Almacenamos el estado acutal en un nuevo objeto para poder modificarlo sin perder los datos
+			nuevoEstado = new Estado(estado.GetNode(), new ArrayList<String>(estado.getListNodes()), estado.GetId());//Almacenamos el estado acutal en un nuevo objeto para poder modificarlo sin perder los datos
+			//Estado nuevoEstado = (Estado) estado.clone(); 
 			nuevoEstado.ChangeState((grafo.getGrafo().getVertex(a.getDestino())).getElement()); //Cambiamos el estado acutal al nuevo estado
 			//Creamos un objeto sucesor con los datos necesarios
 			Sucesor sucesor = new Sucesor("Estoy en " + estado.GetNode().getID() + " y voy a " + nuevoEstado.GetNode().getID(), nuevoEstado,
