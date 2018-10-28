@@ -77,7 +77,7 @@ public class Problema {
 		return visitado;
 	}
 	
-	public void añadirVisitado(Nodo nodo) { //Metodo que a�ade un nodo a la lista de nodos visitados
+	public void anadirVisitado(Nodo nodo) { //Metodo que a�ade un nodo a la lista de nodos visitados
 		recorridos.add(nodo.GetEstado());
 	}
 	

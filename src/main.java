@@ -73,18 +73,18 @@ public class main {
 				
 				for (Sucesor s : sucesores) { //Recorremos la lista de nodos sucesores y los introducimos en la frontera
 					int f = rand.nextInt(100) + 1;
-					nodoSuc = new Nodo(nodo, s.getEstadoNuevo(), s.getCoste(), profundidad, f);
+					nodoSuc = new Nodo(nodo, s.getEstadoNuevo(), s.getCoste(), profundidad, f); //Crea el nodo sucesor
 					//Antes de insertar se comprueba si el nodo ha sido visitado
 					boolean visitado = problema.esVisitado(nodoSuc); //Comprobamos si el nodo sucesor ya ha sido visitado, de ser asi no se introduce en la frontera
 					if(visitado == false) {
-						problema.añadirVisitado(nodoSuc); //A�adimos el nodo seleccionado a la lista de nodos visitados
-						System.out.println(s.getAccion());
-						frontera.Insertar(nodoSuc);
-					}
+						problema.anadirVisitado(nodoSuc); //A�adimos el nodo seleccionado a la lista de nodos visitados
+						System.out.println(s.getAccion()); //Muestra la accion posible a realizar
+						frontera.Insertar(nodoSuc); //Inserta el nodo sucesor a expandir
+					} 
 				}
 				profundidad++;
 			}
-			if(problema.esObjetivo(estado)) {
+			if(problema.esObjetivo(estado)) { //Si encuentra una solucion la muestra por pantalla (el camino a recorrer)
 				System.out.println("Se ha llegado a un nodo objetivo, camino:");
 				Stack<Nodo> camino = obtenerSolucion(nodo);
 				while (!camino.isEmpty()) {
@@ -96,6 +96,10 @@ public class main {
 		sc.close();
 	}
 
+	/*
+	 * Obtiene la solucion (el camino a recorrer para llegar al nodo objetivo)
+	 * mediante el uso de una pila y obteniendo los nodos padre.
+	 */
 	public static Stack<Nodo> obtenerSolucion(Nodo nodo) {
 		Stack<Nodo> camino = new Stack<Nodo>();
 		while (nodo != null) {
