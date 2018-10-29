@@ -3,7 +3,6 @@ import java.util.*;
 public class Frontera{
 
 	private ArrayList<Nodo> frontera;
-	private Comparator<Nodo> n;
 	
 	public Frontera() {
 		CreaFrontera();
@@ -15,7 +14,7 @@ public class Frontera{
 	
 	public void Insertar(Nodo nuevo) {
 		frontera.add(nuevo);
-		Collections.sort(frontera,new OrdenarNodof()); //Una vez añadimos un nuevo elemento a la frontera debemos de reordenarla
+		Collections.sort(frontera,new OrdenarNodof()); //Una vez aï¿½adimos un nuevo elemento a la frontera debemos de reordenarla
 	}
 	
 	public Nodo Elimina() {

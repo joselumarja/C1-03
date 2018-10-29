@@ -1,4 +1,3 @@
-import java.util.Comparator;
 
 public class Nodo{
 	private Nodo Padre; //Nodo padre
