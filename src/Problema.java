@@ -15,8 +15,8 @@ public class Problema {
 	private Estado estadoInicial; //Estado inicial por el que empieza el problema
 	private ArrayList<Estado> recorridos = new ArrayList <Estado>();
 	
-	public Problema() {
-		leerProblema();
+	public Problema(String archivoProblema) {
+		leerProblema(archivoProblema);
 	}
 	
 	/*
@@ -24,10 +24,10 @@ public class Problema {
 	 * Almacena el espacio de estados leyendo el archivo .graphml 
 	 * correspondiente y el estado inicial en el cual debemos empezar el problema
 	 */
-	public void leerProblema() {
+	public void leerProblema(String archivoProblema) {
 		//Guardamos el contenido del archivo .json en un StringBuilder para su lectura
 		StringBuilder content = new StringBuilder();
-		try(BufferedReader reader = Files.newBufferedReader(Paths.get("./problema.json"), Charset.defaultCharset())) {
+		try(BufferedReader reader = Files.newBufferedReader(Paths.get("./" + archivoProblema), Charset.defaultCharset())) {
 			String line = null;
 			while((line = reader.readLine()) != null) {
 				content.append(line).append("\n");

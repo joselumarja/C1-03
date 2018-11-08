@@ -8,12 +8,6 @@ public class main {
 	public static void main(String args[]) {
 
 		Scanner sc = new Scanner(System.in);
-		Problema problema = new Problema();
-		EspacioDeEstados EspEst = problema.getEspacioDeEstados();
-		Estado estado = problema.getEstadoIn();
-		ArrayList<Sucesor> sucesores;
-		Frontera frontera = new Frontera();
-		Nodo nodo = null, nodoSuc;
 		Random rand = new Random();
 		
 		//introducir aqui ruta al fichero del grafo
@@ -22,8 +16,6 @@ public class main {
 		ruta = "data\\" + ruta;
 		
 		Grafo g = new Grafo(ruta);*/
-		Grafo g = EspEst.getGrafo();
-		String osmId;
 		
 		/*
 		if (g != null) {
@@ -56,7 +48,7 @@ public class main {
 			}
 		}
 		*/
-		
+		/*
 		if(EspEst.esta(estado)) { //Priemro comprobamos que el estado inicial sea posible en el espacio de estados
 			System.out.println("El nodo y sus nodos por recorrer pertenecen al grafo");
  
@@ -92,20 +84,95 @@ public class main {
 				}
 			} else System.out.println("La frontera esta vacia y no se ha podido encontrar una solución");
 			
-		}
-		sc.close();
+		}*/
+		String estrategia = "anchura";
+		int Prof_Max = 50;
+		Problema Prob = new Problema("problema.json");
+		Busqueda_Acotada(Prob, estrategia, Prof_Max);
 	}
 
+
+	
+	public static ArrayList<Nodo> Busqueda_Acotada(Problema Prob, String estrategia, int Prof_Max) {
+		//Inicialización
+		Frontera frontera = new Frontera();
+		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0);
+		frontera.Insertar(n_inicial);
+		boolean solucion = false;
+		Nodo n_actual = null;
+		
+		//Bucle de busqueda
+		while(!solucion && !frontera.EsVacia()) {
+			n_actual = frontera.Elimina();
+			if(Prob.esObjetivo(n_actual.GetEstado())) {
+				solucion = true;
+			} else {
+				ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n_actual.GetEstado());
+				ArrayList<Nodo> LN = CreaListaNodosArbol(LS, n_actual, Prof_Max, estrategia);
+				quitarNodosVisitados(LN, Prob);
+				frontera.InsertaLista(LN);
+			}
+		}
+		
+		//Resultado
+		if(solucion) {
+			return CreaSolucion(n_actual);
+		} else {
+			return null;
+		}
+		//fin_Busqueda_Acotada
+	}
+	
+	public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS, Nodo n_actual, int Prof_Max, String estrategia) {
+		Nodo n_sucesor;
+		int f = 0;
+		ArrayList<Nodo> LN = new ArrayList<Nodo>();
+		if (n_actual.GetProfundidad() < Prof_Max) {
+			for (Sucesor s : LS) {
+				switch (estrategia) {
+				case "anchura":
+					f = n_actual.GetProfundidad() + 1;
+					break;
+				case "costo uniforme":
+					f = (int) (n_actual.GetCamino() + s.getCoste());
+					break;
+				case "profundidad simple":
+				case "profundidad acotada":
+				case "profundidad iterativa":
+					f = -(n_actual.GetProfundidad() + 1);
+					break;
+				}
+				n_sucesor = new Nodo(n_actual, s.getEstadoNuevo(), s.getCoste() + n_actual.GetCamino(),
+						n_actual.GetProfundidad() + 1, f);
+				LN.add(n_sucesor);
+			}
+		} else LN = null;
+		return LN;
+	}
+	
+	public static void quitarNodosVisitados(ArrayList<Nodo> LN, Problema Prob) {
+		int ini = 0, fin = LN.size();
+		while(ini < fin) {
+			if(Prob.esVisitado(LN.get(ini))) {
+				LN.remove(ini);
+				fin--;
+			} else {
+				ini++;
+			}
+		}
+	}
+	
 	/*
 	 * Obtiene la solucion (el camino a recorrer para llegar al nodo objetivo)
-	 * mediante el uso de una pila y obteniendo los nodos padre.
+	 * mediante el uso de una lista y obteniendo los nodos padre.
 	 */
-	public static Stack<Nodo> obtenerSolucion(Nodo nodo) {
-		Stack<Nodo> camino = new Stack<Nodo>();
+	public static ArrayList<Nodo> CreaSolucion(Nodo n_actual) {
+		ArrayList<Nodo> solucion = new ArrayList<Nodo>();
+		Nodo nodo = n_actual;
 		while (nodo != null) {
-			camino.push(nodo);
+			solucion.add(0, nodo);
 			nodo = nodo.getPadre();
 		}
-		return camino;
+		return solucion;
 	}
 }

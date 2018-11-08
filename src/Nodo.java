@@ -11,8 +11,7 @@ public class Nodo{
 		this.Est = Est;
 		this.P = P;
 		this.F = F;
-		if (Padre == null) this.Camino = Camino;
-		else this.Camino = Padre.Camino + Camino;
+		this.Camino = Camino;
 	}
 
 	public Nodo getPadre() {

@@ -17,6 +17,11 @@ public class Frontera{
 		Collections.sort(frontera,new OrdenarNodof()); //Una vez a�adimos un nuevo elemento a la frontera debemos de reordenarla
 	}
 	
+	public void InsertaLista(ArrayList<Nodo> LN) {
+		frontera.addAll(LN);
+		Collections.sort(frontera,new OrdenarNodof());
+	}
+	
 	public Nodo Elimina() {
 		return frontera.remove(0);
 	}
