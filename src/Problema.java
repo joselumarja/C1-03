@@ -13,7 +13,7 @@ import com.google.gson.JsonParser;
 public class Problema {
 	private EspacioDeEstados espacioDeEstados; //Espacio de estados del problema
 	private Estado estadoInicial; //Estado inicial por el que empieza el problema
-	private ArrayList<Estado> recorridos = new ArrayList <Estado>();
+	private ArrayList<Nodo> recorridos = new ArrayList <Nodo>();
 	
 	public Problema(String archivoProblema) {
 		leerProblema(archivoProblema);
@@ -66,19 +66,25 @@ public class Problema {
 		return e.getListNodes().isEmpty();
 	}
 	
-	public boolean esVisitado(Nodo nodo) { //Metodo que comprueba si un nodo ya ha sido visitado
-		boolean visitado = false;
-		for(int i = 0; i < recorridos.size(); i++) {
-			if(recorridos.get(i).GetNode().getID() == nodo.GetEstado().GetNode().getID()) {
-				visitado = true;
+	public boolean anadirVisitado(Nodo nodo) { //Metodo que comprueba si un nodo ya ha sido visitado
+		boolean anadido = false;
+		int i;
+		for(i = 0; i < recorridos.size(); i++) {
+			if(recorridos.get(i).GetEstado().GetNode().getID().equals(nodo.GetEstado().GetNode().getID())) {
+				if (recorridos.get(i).GetF() > nodo.GetF()) {
+					recorridos.add(nodo);
+					anadido = true;
+				} else {
+					anadido = false;
+				}
 				break;
 			}
 		}
-		return visitado;
-	}
-	
-	public void anadirVisitado(Nodo nodo) { //Metodo que a�ade un nodo a la lista de nodos visitados
-		recorridos.add(nodo.GetEstado());
+		if (i == recorridos.size()) {
+			recorridos.add(nodo);
+			anadido = true;
+		}
+		return anadido;
 	}
 	
 	public EspacioDeEstados getEspacioDeEstados() {

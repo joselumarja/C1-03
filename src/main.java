@@ -1,15 +1,10 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Stack;
-import java.util.Random; 
+import java.util.Scanner; 
 
 public class main {
-
+	private static Scanner sc = new Scanner(System.in);
+	
 	public static void main(String args[]) {
-
-		Scanner sc = new Scanner(System.in);
-		Random rand = new Random();
-		
 		//introducir aqui ruta al fichero del grafo
 		/*System.out.println("Introduce la ruta del fichero (terminación con .graphml.xml)");
 		String ruta = sc.nextLine();
@@ -85,15 +80,51 @@ public class main {
 			} else System.out.println("La frontera esta vacia y no se ha podido encontrar una solución");
 			
 		}*/
-		String estrategia = "anchura";
-		int Prof_Max = 50;
+		
+		int estrategia = solicitarEstrategia();
+		int Prof_Max = solicitarNumero("Introduce la profundidad maxima: ");
+		int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
 		Problema Prob = new Problema("problema.json");
-		Busqueda_Acotada(Prob, estrategia, Prof_Max);
+		Busqueda(Prob, estrategia, Prof_Max, Inc_Prof);
 	}
 
-
+	public static int solicitarEstrategia() {
+		int opcion;
+		System.out.println("Estrategias de busqueda:");
+		System.out.println("1. Estrategia de busqueda en anchura\n"
+				+ "2. Estrategia de busqueda en profundidad simple\n"
+				+ "3. Estrategia de busqueda en profundidad acotada\n"
+				+ "4. Estrategia de busqueda en profundidad iterativa\n"
+				+ "5. Estrategia de busqueda en coste uniforme");
+		do {
+			System.out.print("Introduce el numero de una estrategia de busqueda (1-5): ");
+			opcion = sc.nextInt();
+		} while(opcion < 1 || opcion > 5);
+		
+		return opcion;
+	}
 	
-	public static ArrayList<Nodo> Busqueda_Acotada(Problema Prob, String estrategia, int Prof_Max) {
+	public static int solicitarNumero(String solicitud) {
+		int numero;
+		do {
+			System.out.print(solicitud);
+			numero = sc.nextInt();
+		} while(numero <= 0);
+		
+		return numero;
+	}
+	
+	public static ArrayList<Nodo> Busqueda(Problema Prob, int estrategia, int Prof_Max, int Inc_Prof){
+		int Prof_Actual = Inc_Prof;
+		ArrayList<Nodo> solucion = null;
+		while (solucion == null && Prof_Actual <= Prof_Max) {
+			solucion = Busqueda_Acotada(Prob, estrategia, Prof_Max);
+			Prof_Actual += Inc_Prof;
+		}
+		return solucion;
+	}
+	
+	public static ArrayList<Nodo> Busqueda_Acotada(Problema Prob, int estrategia, int Prof_Max) {
 		//Inicialización
 		Frontera frontera = new Frontera();
 		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0);
@@ -123,22 +154,22 @@ public class main {
 		//fin_Busqueda_Acotada
 	}
 	
-	public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS, Nodo n_actual, int Prof_Max, String estrategia) {
+	public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS, Nodo n_actual, int Prof_Max, int estrategia) {
 		Nodo n_sucesor;
 		int f = 0;
 		ArrayList<Nodo> LN = new ArrayList<Nodo>();
 		if (n_actual.GetProfundidad() < Prof_Max) {
 			for (Sucesor s : LS) {
 				switch (estrategia) {
-				case "anchura":
+				case 1:
 					f = n_actual.GetProfundidad() + 1;
 					break;
-				case "costo uniforme":
+				case 5:
 					f = (int) (n_actual.GetCamino() + s.getCoste());
 					break;
-				case "profundidad simple":
-				case "profundidad acotada":
-				case "profundidad iterativa":
+				case 2:
+				case 3:
+				case 4:
 					f = -(n_actual.GetProfundidad() + 1);
 					break;
 				}
@@ -153,11 +184,11 @@ public class main {
 	public static void quitarNodosVisitados(ArrayList<Nodo> LN, Problema Prob) {
 		int ini = 0, fin = LN.size();
 		while(ini < fin) {
-			if(Prob.esVisitado(LN.get(ini))) {
+			if(Prob.anadirVisitado(LN.get(ini))) {
+				ini++;
+			} else {
 				LN.remove(ini);
 				fin--;
-			} else {
-				ini++;
 			}
 		}
 	}
