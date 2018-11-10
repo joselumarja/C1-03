@@ -4,9 +4,9 @@ public class Nodo{
 	private Estado Est;	//Estado
 	private double Camino; //Camino recorrido
 	private int P; //Profundidad a la que se encuentra el nodo
-	private int F;	//Valor en la frontera
+	private double F;	//Valor en la frontera
 
-	public Nodo(Nodo Padre, Estado Est, double Camino, int P, int F) {
+	public Nodo(Nodo Padre, Estado Est, double Camino, int P, double F) {
 		this.Padre = Padre;
 		this.Est = Est;
 		this.P = P;
@@ -17,7 +17,7 @@ public class Nodo{
 	public Nodo getPadre() {
 		return Padre;
 	}
-	public int GetF() {
+	public double GetF() {
 		return F;
 	}
 	
@@ -33,4 +33,19 @@ public class Nodo{
 		return P;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String cadenaNodo;
+		if(this.Padre == null) {
+			cadenaNodo = "None";
+		} else {
+			cadenaNodo = Padre.GetEstado().GetNode().getID() + " -> " + Est.GetNode().getID();
+		}
+		cadenaNodo += " " + String.valueOf(Camino) + " " + String.valueOf(P) + " " + String.valueOf(F); 
+		return cadenaNodo;
+	}
 }

@@ -58,10 +58,7 @@ public class Estado implements Cloneable{
 	}
 	
 	public String toString() {
-		String listaRec = "-----Nodos por recorrer: ";
-		for(String s : listNodes) {
-			listaRec += s.toString() + " ";
-		}
-		return listaRec;
+		String cadenaEstado = "Estoy en " + node.getID() + " y tengo que visitar " + listNodes.toString();
+		return cadenaEstado;
 	}
 }

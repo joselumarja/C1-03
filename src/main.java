@@ -85,7 +85,9 @@ public class main {
 		int Prof_Max = solicitarNumero("Introduce la profundidad maxima: ");
 		int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
 		Problema Prob = new Problema("problema.json");
-		Busqueda(Prob, estrategia, Prof_Max, Inc_Prof);
+		ArrayList<Nodo> solucion = Busqueda(Prob, estrategia, Prof_Max, Inc_Prof);
+		if(solucion == null) System.out.println("No se ha encontrado solucion y se han generado " + Prob.getRecorridos().size() + " nodos");
+		else imprimir(solucion, estrategia, Prob);
 	}
 
 	public static int solicitarEstrategia() {
@@ -118,7 +120,8 @@ public class main {
 		int Prof_Actual = Inc_Prof;
 		ArrayList<Nodo> solucion = null;
 		while (solucion == null && Prof_Actual <= Prof_Max) {
-			solucion = Busqueda_Acotada(Prob, estrategia, Prof_Max);
+			Prob.limpiarRecorridos();
+			solucion = Busqueda_Acotada(Prob, estrategia, Prof_Actual);
 			Prof_Actual += Inc_Prof;
 		}
 		return solucion;
@@ -140,8 +143,10 @@ public class main {
 			} else {
 				ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n_actual.GetEstado());
 				ArrayList<Nodo> LN = CreaListaNodosArbol(LS, n_actual, Prof_Max, estrategia);
-				quitarNodosVisitados(LN, Prob);
-				frontera.InsertaLista(LN);
+				if(LN != null) {
+					quitarNodosVisitados(LN, Prob);
+					frontera.InsertaLista(LN);
+				}
 			}
 		}
 		
@@ -156,7 +161,7 @@ public class main {
 	
 	public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS, Nodo n_actual, int Prof_Max, int estrategia) {
 		Nodo n_sucesor;
-		int f = 0;
+		double f = 0;
 		ArrayList<Nodo> LN = new ArrayList<Nodo>();
 		if (n_actual.GetProfundidad() < Prof_Max) {
 			for (Sucesor s : LS) {
@@ -205,5 +210,25 @@ public class main {
 			nodo = nodo.getPadre();
 		}
 		return solucion;
+	}
+	
+	public static void imprimir(ArrayList<Nodo> solucion, int estrategia, Problema Prob) {
+		String estrategiaCadena = "";
+		Nodo nodo;
+		switch(estrategia) {
+		case 1: estrategiaCadena = "anchura";
+		case 2: estrategiaCadena = "profundidad simple";
+		case 3: estrategiaCadena = "profundidad acotada";
+		case 4: estrategiaCadena = "profundidad iterativa";
+		case 5: estrategiaCadena = "coste uniforme";
+		}
+		System.out.println("La solucion es:\nEstrategia:" + estrategiaCadena + "\nTotal Nodos Generados:"
+				+ Prob.getRecorridos().size() + "\nProfundidad:" + solucion.get(solucion.size() - 1).GetProfundidad()
+				+ "\nCosto:" + solucion.get(solucion.size() - 1).GetCamino());
+		while(!solucion.isEmpty()) {
+			nodo = solucion.remove(0);
+			System.out.println(nodo);
+			System.out.println(nodo.GetEstado() + "\n");
+		}
 	}
 }

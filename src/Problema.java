@@ -13,7 +13,7 @@ import com.google.gson.JsonParser;
 public class Problema {
 	private EspacioDeEstados espacioDeEstados; //Espacio de estados del problema
 	private Estado estadoInicial; //Estado inicial por el que empieza el problema
-	private ArrayList<Nodo> recorridos = new ArrayList <Nodo>();
+	private ArrayList<Nodo> recorridos;
 	
 	public Problema(String archivoProblema) {
 		leerProblema(archivoProblema);
@@ -87,6 +87,10 @@ public class Problema {
 		return anadido;
 	}
 	
+	public void limpiarRecorridos() {
+		recorridos = new ArrayList<Nodo>();
+	}
+	
 	public EspacioDeEstados getEspacioDeEstados() {
 		return espacioDeEstados;
 	}
@@ -94,4 +98,12 @@ public class Problema {
 	public Estado getEstadoIn() {
 		return estadoInicial;
 	}
+
+	/**
+	 * @return the recorridos
+	 */
+	public ArrayList<Nodo> getRecorridos() {
+		return recorridos;
+	}
+	
 }

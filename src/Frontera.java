@@ -18,7 +18,9 @@ public class Frontera{
 	}
 	
 	public void InsertaLista(ArrayList<Nodo> LN) {
-		frontera.addAll(LN);
+		while(!LN.isEmpty()) {
+			frontera.add(LN.remove(0));
+		}
 		Collections.sort(frontera,new OrdenarNodof());
 	}
 	
