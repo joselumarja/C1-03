@@ -154,7 +154,7 @@ public class main {
 			break;
 		case BusquedaEnProfundidadIterativa:
 			int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
-			BusquedaEnProfundidadIterativa(Prob,frontera,TBusqueda,Inc_Prof);
+			solucion=BusquedaEnProfundidadIterativa(Prob,frontera,TBusqueda,Inc_Prof);
 			break;
 		case BusquedaDeCostoUniforme:
 			break;
@@ -195,11 +195,13 @@ public class main {
 					front.InsertaLista(PendientesSiguienteIteracion);
 					PendientesSiguienteIteracion.clear();
 					ProfundidadMaxima += Inc_Prof;
+					
 				} else {
 					Salir = true;
 				}
-			}
 
+			}
+			
 		}
 
 		return null;
@@ -329,9 +331,11 @@ public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, T
 	public static ArrayList<Nodo> CreaSolucion(Nodo n_actual) {
 		ArrayList<Nodo> solucion = new ArrayList<Nodo>();
 		Nodo nodo = n_actual;
+		System.out.println("Estoy en: "+nodo.GetEstado());
 		while (nodo != null) {
 			solucion.add(0, nodo);
 			nodo = nodo.getPadre();
+
 		}
 		return solucion;
 	}
