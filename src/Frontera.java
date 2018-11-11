@@ -21,6 +21,7 @@ public class Frontera{
 
 		frontera.addAll(LN);
 		Collections.sort(frontera,new OrdenarNodof());
+		
 	}
 	
 	public Nodo Elimina() {

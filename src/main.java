@@ -100,7 +100,7 @@ public class main {
 			TBusqueda=TipoDeBusqueda.BusquedaDeCostoUniforme;
 			break;
 		}
-		//int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
+		//
 		Problema Prob = new Problema("problema.json");
 		//ArrayList<Nodo> solucion = Busqueda(Prob, estrategia, Prof_Max, Inc_Prof);
 		ArrayList<Nodo> solucion=Busqueda(Prob, TBusqueda);
@@ -135,50 +135,6 @@ public class main {
 		return numero;
 	}
 	
-	/*public static ArrayList<Nodo> Busqueda(Problema Prob, int estrategia, int Prof_Max, int Inc_Prof){
-		int Prof_Actual = Inc_Prof;
-		ArrayList<Nodo> solucion = null;
-		while (solucion == null && Prof_Actual <= Prof_Max) {
-			Prob.limpiarRecorridos();
-			solucion = Busqueda_Acotada(Prob, estrategia, Prof_Actual);
-			Prof_Actual += Inc_Prof;
-		}
-		return solucion;
-	}*/
-	
-	/*public static ArrayList<Nodo> Busqueda_Acotada(Problema Prob, int estrategia, int Prof_Max) {
-		//Inicialización
-		Frontera frontera = new Frontera();
-		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0);
-		frontera.Insertar(n_inicial);
-		boolean solucion = false;
-		Nodo n_actual = null;
-		
-		//Bucle de busqueda
-		while(!solucion && !frontera.EsVacia()) {
-			n_actual = frontera.Elimina();
-			System.out.println(n_actual.toString());
-			if(Prob.esObjetivo(n_actual.GetEstado())) {
-				solucion = true;
-			} else {
-				ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n_actual.GetEstado());
-				ArrayList<Nodo> LN = CreaListaNodosArbol(LS, n_actual, Prof_Max, estrategia);
-				if(LN != null) {
-					quitarNodosVisitados(LN, Prob);
-					frontera.InsertaLista(LN);
-				}
-			}
-		}
-		
-		//Resultado
-		if(solucion) {
-			return CreaSolucion(n_actual);
-		} else {
-			return null;
-		}
-		//fin_Busqueda_Acotada
-	}*/
-	
 	public static ArrayList<Nodo> Busqueda(Problema Prob, TipoDeBusqueda TBusqueda){
 		Frontera frontera = new Frontera();
 		ArrayList<Nodo> solucion=null;
@@ -197,6 +153,8 @@ public class main {
 			solucion=BusquedaEnProfundidadAcotada(Prob,frontera,TBusqueda,Prof_Max);
 			break;
 		case BusquedaEnProfundidadIterativa:
+			int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
+			BusquedaEnProfundidadIterativa(Prob,frontera,TBusqueda,Inc_Prof);
 			break;
 		case BusquedaDeCostoUniforme:
 			break;
@@ -205,11 +163,53 @@ public class main {
 		
 	}
 	
+	public static ArrayList<Nodo> BusquedaEnProfundidadIterativa(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Inc_Prof) {
+		int ProfundidadMaxima = Inc_Prof;
+		boolean Salir = false;
+		ArrayList<Nodo> PendientesSiguienteIteracion = new ArrayList<Nodo>();
+		while (!Salir) {
+			Nodo n = front.Elimina();
+			if (n.GetProfundidad() <= ProfundidadMaxima) {
+				Prob.anadirVisitado(n);
+				if (Prob.esObjetivo(n.GetEstado())) {
+					return CreaSolucion(n);
+				} else {
+					ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n.GetEstado());
+					ArrayList<Nodo> LN = CreaListaNodosArbol(LS, front, Prob, n, TBusqueda);
+
+					for (Nodo Hijo : LN) {
+
+						front.Insertar(Hijo);
+
+					}
+
+				}
+			} else {
+				PendientesSiguienteIteracion.add(n);
+				System.out.println(n.GetProfundidad());
+			}
+
+			if (front.EsVacia()) {
+				if (!PendientesSiguienteIteracion.isEmpty()) {
+					System.out.println(ProfundidadMaxima+" "+PendientesSiguienteIteracion.toString());
+					front.InsertaLista(PendientesSiguienteIteracion);
+					PendientesSiguienteIteracion.clear();
+					ProfundidadMaxima += Inc_Prof;
+				} else {
+					Salir = true;
+				}
+			}
+
+		}
+
+		return null;
+	}
+	
 	public static ArrayList<Nodo> BusquedaEnProfundidadAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max) {
 	
 		while (!front.EsVacia()) {
 			Nodo n = front.Elimina();
-			if (n.GetProfundidad() < Prof_Max) {
+			if (n.GetProfundidad() <= Prof_Max) {
 				Prob.anadirVisitado(n);
 				if (Prob.esObjetivo(n.GetEstado())) {
 					return CreaSolucion(n);
