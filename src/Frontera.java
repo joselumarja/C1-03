@@ -18,9 +18,8 @@ public class Frontera{
 	}
 	
 	public void InsertaLista(ArrayList<Nodo> LN) {
-		while(!LN.isEmpty()) {
-			frontera.add(LN.remove(0));
-		}
+
+		frontera.addAll(LN);
 		Collections.sort(frontera,new OrdenarNodof());
 	}
 	
@@ -38,6 +37,22 @@ public class Frontera{
 			nodosFron += n.GetEstado().GetNode().getID().toString() + " ";
 		}
 		return nodosFron;
+	}
+	
+	public boolean ContieneElNodo(Nodo n) {
+		for(Nodo x:frontera) {
+			if(n.GetEstado().GetId().equals(x.GetEstado().GetId())) return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean ContieneElNodo(String id) {
+		for(Nodo x:frontera) {
+			if(id.equals(x.GetEstado().GetId())) return true;
+		}
+		
+		return false;
 	}
 
 }

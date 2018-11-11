@@ -41,7 +41,7 @@ public class Estado implements Cloneable{
 
 		id = MD5(Concat);
 	}
-
+	
 	//Encripta el estado acutal en MD5
 	public String MD5(String md5) {
 		try {

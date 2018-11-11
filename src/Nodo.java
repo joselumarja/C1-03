@@ -32,6 +32,21 @@ public class Nodo{
 	public int GetProfundidad() {
 		return P;
 	}
+	
+	public boolean EstaRepetido() {
+		Nodo Aux=getPadre();
+		
+		while(Aux!=null) {
+			if(Aux.GetEstado().GetId().equals(this.GetEstado().GetId())) 
+			{
+				return true;
+			}
+			
+			Aux=Aux.getPadre();
+		}
+		
+		return false;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

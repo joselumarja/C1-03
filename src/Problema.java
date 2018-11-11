@@ -17,6 +17,7 @@ public class Problema {
 	
 	public Problema(String archivoProblema) {
 		leerProblema(archivoProblema);
+		recorridos=new ArrayList<Nodo>();
 	}
 	
 	/*
@@ -98,7 +99,22 @@ public class Problema {
 	public Estado getEstadoIn() {
 		return estadoInicial;
 	}
-
+	
+	public boolean EstaVisitado(Nodo n) {
+		for(Nodo x:recorridos) {
+			if(n.GetEstado().GetId().equals(x.GetEstado().GetId())) return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean EstaVisitado(String id) {
+		for(Nodo x:recorridos) {
+			if(id.equals(x.GetEstado().GetId())) return true;
+		}
+		
+		return false;
+	}
 	/**
 	 * @return the recorridos
 	 */
