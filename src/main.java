@@ -1,24 +1,25 @@
 import java.util.ArrayList;
-import java.util.Scanner; 
+import java.util.Scanner;
+import java.io.*;
 
 public class main {
 	private static Scanner sc = new Scanner(System.in);
-	
+
 	public static void main(String args[]) {
 		//introducir aqui ruta al fichero del grafo
 		/*System.out.println("Introduce la ruta del fichero (terminación con .graphml.xml)");
 		String ruta = sc.nextLine();
 		ruta = "data\\" + ruta;
-		
+
 		Grafo g = new Grafo(ruta);*/
-		
+
 		/*
 		if (g != null) {
 			//Funcionalidad 1
 			System.out.println("Introduce un id para comprobar que esta en el grafo");
 			osmId = sc.next();
 			System.out.println(g.perteneceNodo(osmId));
-			
+
 			//Funcionalidad 2
 			System.out.println("Introduce un id para obtener su longitud y latitud en el grafo");
 			osmId = sc.next();
@@ -28,7 +29,7 @@ public class main {
 			} else {
 				System.out.println("El nodo no existe en el grafo");
 			}
-			
+
 			//Funcionalidad 3
 			System.out.println("Introduce un nodo para ver sus aristas");
 			osmId = sc.next();
@@ -42,14 +43,14 @@ public class main {
 				System.out.println("Error, el nodo introducido no tiene aristas o no existe");
 			}
 		}
-		*/
+		 */
 		/*
 		if(EspEst.esta(estado)) { //Priemro comprobamos que el estado inicial sea posible en el espacio de estados
 			System.out.println("El nodo y sus nodos por recorrer pertenecen al grafo");
- 
+
 			frontera.Insertar(new Nodo(null, estado, 0, 0, 0));//Nodo inicial
 			int profundidad = 1;
-			
+
 			while(!problema.esObjetivo(estado) && !frontera.EsVacia()){ //Mientras que queden nodos por recorrer o nodos en la frontera se ejecutara el programa
 				System.out.println("\n" + frontera.toString());
 				nodo = frontera.Elimina(); //Extraemos de la frontera el nodo con menor f
@@ -57,7 +58,7 @@ public class main {
 				System.out.println("*****Nodo Seleccionado de la frontera: "+estado.GetNode().getID() + "*****");
 				System.out.println(estado.toString());
 				sucesores = EspEst.sucesores(estado); //Calculamos los nodos sucesores del nodo elegido
-				
+
 				for (Sucesor s : sucesores) { //Recorremos la lista de nodos sucesores y los introducimos en la frontera
 					int f = rand.nextInt(100) + 1;
 					nodoSuc = new Nodo(nodo, s.getEstadoNuevo(), s.getCoste(), profundidad, f); //Crea el nodo sucesor
@@ -78,10 +79,10 @@ public class main {
 					System.out.print(camino.pop().GetEstado().GetNode().getID());
 				}
 			} else System.out.println("La frontera esta vacia y no se ha podido encontrar una solución");
-			
+
 		}*/
 		//int estrategia=solicitarEstrategia();
-		
+
 		TipoDeBusqueda TBusqueda=null;
 		switch(solicitarEstrategia()) {
 		case 1:
@@ -104,11 +105,11 @@ public class main {
 		Problema Prob = new Problema("problema.json");
 		//ArrayList<Nodo> solucion = Busqueda(Prob, estrategia, Prof_Max, Inc_Prof);
 		ArrayList<Nodo> solucion=Busqueda(Prob, TBusqueda);
-		
+
 		if(solucion==null) System.out.println("No se ha encontrado solucion y se han generado " + Prob.getRecorridos().size() + " nodos");
 		else imprimir(solucion, TBusqueda, Prob);
 	}
-	
+
 	public static int solicitarEstrategia() {
 		int opcion;
 		System.out.println("Estrategias de busqueda:");
@@ -121,20 +122,20 @@ public class main {
 			System.out.print("Introduce el numero de una estrategia de busqueda (1-5): ");
 			opcion = sc.nextInt();
 		} while(opcion < 1 || opcion > 5);
-		
+
 		return opcion;
 	}
-	
+
 	public static int solicitarNumero(String solicitud) {
 		int numero;
 		do {
 			System.out.print(solicitud);
 			numero = sc.nextInt();
 		} while(numero <= 0);
-		
+
 		return numero;
 	}
-	
+
 	public static ArrayList<Nodo> Busqueda(Problema Prob, TipoDeBusqueda TBusqueda){
 		Frontera frontera = new Frontera();
 		ArrayList<Nodo> solucion=null;
@@ -160,9 +161,9 @@ public class main {
 			break;
 		}
 		return solucion;
-		
+
 	}
-	
+
 	public static ArrayList<Nodo> BusquedaEnProfundidadIterativa(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Inc_Prof) {
 		int ProfundidadMaxima = Inc_Prof;
 		boolean Salir = false;
@@ -195,20 +196,20 @@ public class main {
 					front.InsertaLista(PendientesSiguienteIteracion);
 					PendientesSiguienteIteracion.clear();
 					ProfundidadMaxima += Inc_Prof;
-					
+
 				} else {
 					Salir = true;
 				}
 
 			}
-			
+
 		}
 
 		return null;
 	}
-	
+
 	public static ArrayList<Nodo> BusquedaEnProfundidadAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max) {
-	
+
 		while (!front.EsVacia()) {
 			Nodo n = front.Elimina();
 			if (n.GetProfundidad() <= Prof_Max) {
@@ -232,9 +233,9 @@ public class main {
 
 		return null;
 	}
-	
+
 	public static ArrayList<Nodo> BusquedaEnProfundidad(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda) {
-		
+
 		while (!front.EsVacia()) {
 			Nodo n = front.Elimina();
 			Prob.anadirVisitado(n);
@@ -256,9 +257,9 @@ public class main {
 		return null;
 
 	}
-	
-public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda) {
-		
+
+	public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda) {
+
 		while (!front.EsVacia()) {
 			Nodo n = front.Elimina();
 			Prob.anadirVisitado(n);
@@ -280,8 +281,8 @@ public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, T
 		return null;
 
 	}
-	
-	
+
+
 	public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS, Frontera front, Problema Prob, Nodo n_actual, TipoDeBusqueda TBusqueda) {
 		Nodo n_sucesor;
 		double f = 0;
@@ -311,7 +312,7 @@ public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, T
 
 		return LN;
 	}
-	
+
 	public static void quitarNodosVisitados(ArrayList<Nodo> LN, Problema Prob) {
 		int ini = 0, fin = LN.size();
 		while(ini < fin) {
@@ -323,7 +324,7 @@ public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, T
 			}
 		}
 	}
-	
+
 	/*
 	 * Obtiene la solucion (el camino a recorrer para llegar al nodo objetivo)
 	 * mediante el uso de una lista y obteniendo los nodos padre.
@@ -339,7 +340,7 @@ public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, T
 		}
 		return solucion;
 	}
-	
+
 	public static void imprimir(ArrayList<Nodo> solucion, TipoDeBusqueda TBusqueda, Problema Prob) {
 		String estrategiaCadena = "";
 		Nodo nodo;
@@ -360,13 +361,26 @@ public static ArrayList<Nodo> BusquedaEnAnchura(Problema Prob, Frontera front, T
 			estrategiaCadena = "coste uniforme";
 			break;
 		}
-		System.out.println("La solucion es:\nEstrategia:" + estrategiaCadena + "\nTotal Nodos Generados:"
-				+ Prob.getRecorridos().size() + "\nProfundidad:" + solucion.get(solucion.size()-1).GetProfundidad()
-				+ "\nCosto:" + solucion.get(solucion.size()-1).GetCamino());
-		while(!solucion.isEmpty()) {
-			nodo = solucion.remove(0);
-			System.out.println(nodo);
-			System.out.println(nodo.GetEstado() + "\n");
+		FileWriter fich_solucion;
+		PrintWriter pw;
+
+		try {
+			fich_solucion = new FileWriter("solucion.txt");
+			pw = new PrintWriter(fich_solucion);
+
+			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Generados:"
+					+ Prob.getRecorridos().size() + "\r\nProfundidad:" + solucion.get(solucion.size()-1).GetProfundidad()
+					+ "\r\nCosto:" + solucion.get(solucion.size()-1).GetCamino()+"\r\n\r\n");
+			while(!solucion.isEmpty()) {
+				nodo = solucion.remove(0);
+				pw.println(nodo);
+				pw.println(nodo.GetEstado() + "\r\n");
+			}
+			fich_solucion.close();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
+
+
 	}
 }
