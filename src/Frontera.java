@@ -24,7 +24,9 @@ public class Frontera{
 	}
 	
 	public Nodo Elimina() {
-		return frontera.remove(0);
+		Nodo n=null;
+		if(!EsVacia()) n=frontera.remove(0);
+		return n;
 	}
 	
 	public boolean EsVacia() {
