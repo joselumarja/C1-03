@@ -24,6 +24,12 @@ public class main {
 		case 5:
 			TBusqueda=TipoDeBusqueda.BusquedaDeCostoUniforme;
 			break;
+		case 6:
+			TBusqueda=TipoDeBusqueda.BusquedaVoraz;
+			break;
+		case 7:
+			TBusqueda=TipoDeBusqueda.BusquedaAAsterisco;
+			break;
 		}
 		
 		Problema Prob = new Problema("problema.json");
@@ -40,11 +46,13 @@ public class main {
 				+ "2. Estrategia de busqueda en profundidad simple\n"
 				+ "3. Estrategia de busqueda en profundidad acotada\n"
 				+ "4. Estrategia de busqueda en profundidad iterativa\n"
-				+ "5. Estrategia de busqueda en coste uniforme");
+				+ "5. Estrategia de busqueda en coste uniforme"
+				+ "6. Estrategia de busqueda Voraz\n" + "7. Estrategia de busqueda A*\n");
 		do {
-			System.out.print("Introduce el numero de una estrategia de busqueda (1-5): ");
-			opcion = sc.nextInt();
-		} while(opcion < 1 || opcion > 5);
+
+			opcion = solicitarNumero("Introduce el numero de una estrategia de busqueda (1-7): ");
+
+		} while (opcion > 7);
 
 		return opcion;
 	}
@@ -66,6 +74,8 @@ public class main {
 		Prob.anadirVisitado(n_inicial);
 		frontera.Insertar(n_inicial);
 		switch(TBusqueda) {
+		case BusquedaVoraz:
+		case BusquedaAAsterisco:
 		case BusquedaEnAnchura:
 		case BusquedaEnProfundidadSimple:
 		case BusquedaDeCostoUniforme:
@@ -90,19 +100,25 @@ public class main {
 		Nodo nodo;
 		switch(TBusqueda) {
 		case BusquedaEnAnchura: 
-			estrategiaCadena = "anchura";
+			estrategiaCadena = "Anchura";
 			break;
 		case BusquedaEnProfundidadSimple:
-			estrategiaCadena = "profundidad simple";
+			estrategiaCadena = "Profundidad Simple";
 			break;
 		case BusquedaEnProfundidadAcotada:
-			estrategiaCadena = "profundidad acotada";
+			estrategiaCadena = "Profundidad Acotada";
 			break;
 		case BusquedaEnProfundidadIterativa:
-			estrategiaCadena = "profundidad iterativa";
+			estrategiaCadena = "Profundidad Iterativa";
 			break;
 		case BusquedaDeCostoUniforme:
-			estrategiaCadena = "coste uniforme";
+			estrategiaCadena = "Coste Uniforme";
+			break;
+		case BusquedaVoraz:
+			estrategiaCadena = "Voraz";
+			break;
+		case BusquedaAAsterisco:
+			estrategiaCadena = "A*";
 			break;
 		}
 		FileWriter fich_solucion;

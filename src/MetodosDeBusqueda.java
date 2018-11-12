@@ -65,7 +65,7 @@ public class MetodosDeBusqueda {
 		return null;
 	}
 	
-	/*Sirve tanto para la busqueda en Profundidad, Anchura y De Costo Uniforme, lo unico que varia es como se ordenan los nodos en la frontera*/
+	/*Sirve tanto para la busqueda en Profundidad, Anchura, De Costo Uniforme, Voraz y A*. Lo unico que varia es como se ordenan los nodos en la frontera*/
 	public static ArrayList<Nodo> BusquedaSimple(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda)
 	{
 		while (!front.EsVacia()) {
@@ -104,6 +104,10 @@ public class MetodosDeBusqueda {
 				case BusquedaEnProfundidadAcotada:
 				case BusquedaEnProfundidadIterativa:
 					f = -(n_actual.GetProfundidad() + 1);
+					break;
+				case BusquedaVoraz:
+					break;
+				case BusquedaAAsterisco:
 					break;
 				}
 				n_sucesor = new Nodo(n_actual, s.getEstadoNuevo(), s.getCoste() + n_actual.GetCamino(),
