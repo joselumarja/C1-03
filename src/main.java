@@ -172,6 +172,7 @@ public class main {
 		double f = 0;
 		String id;
 		ArrayList<Nodo> LN = new ArrayList<Nodo>();
+		Prob.IncrementarGenerados(LS.size());
 		for (Sucesor s : LS) {
 			id = s.getEstadoNuevo().GetId();
 			if (!front.ContieneElNodo(id) && !Prob.EstaVisitado(id)) {
@@ -251,8 +252,8 @@ public class main {
 			fich_solucion = new FileWriter("solucion.txt");
 			pw = new PrintWriter(fich_solucion);
 
-			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Generados:"
-					+ Prob.getRecorridos().size() + "\r\nProfundidad:" + solucion.get(solucion.size()-1).GetProfundidad()
+			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Recorridoss:"
+					+ Prob.getRecorridos().size() + "\r\nTotal Nodos Generados:"+Prob.GetGenerados()+"\r\nProfundidad:" + solucion.get(solucion.size()-1).GetProfundidad()
 					+ "\r\nCosto:" + solucion.get(solucion.size()-1).GetCamino()+"\r\n\r\n");
 			while(!solucion.isEmpty()) {
 				nodo = solucion.remove(0);

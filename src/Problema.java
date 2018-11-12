@@ -14,10 +14,12 @@ public class Problema {
 	private EspacioDeEstados espacioDeEstados; //Espacio de estados del problema
 	private Estado estadoInicial; //Estado inicial por el que empieza el problema
 	private ArrayList<Nodo> recorridos;
+	private int NodosGenerados;
 	
 	public Problema(String archivoProblema) {
 		leerProblema(archivoProblema);
 		recorridos=new ArrayList<Nodo>();
+		NodosGenerados=0;
 	}
 	
 	/*
@@ -67,12 +69,27 @@ public class Problema {
 		return e.getListNodes().isEmpty();
 	}
 	
+	public void IncrementarGenerados() 
+	{
+		NodosGenerados++;
+	}
+	
+	public void IncrementarGenerados(int Incremento) 
+	{
+		NodosGenerados+=Incremento;
+	}
+	
+	public int GetGenerados()
+	{
+		return NodosGenerados;
+	}
+	
 	public boolean anadirVisitado(Nodo nodo) { //Metodo que comprueba si un nodo ya ha sido visitado
 		boolean anadido = false;
 		int i;
 		for(i = 0; i < recorridos.size(); i++) {
-			if(recorridos.get(i).GetEstado().GetNode().getID().equals(nodo.GetEstado().GetNode().getID())) {
-				if (recorridos.get(i).GetF() > nodo.GetF()) {
+			if(recorridos.get(i).GetEstado().GetId().equals(nodo.GetEstado().GetId())) {
+				if (Math.abs(recorridos.get(i).GetF()) > Math.abs(nodo.GetF())) {
 					recorridos.add(nodo);
 					anadido = true;
 				} else {
