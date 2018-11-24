@@ -1,13 +1,15 @@
 import java.util.*;
 
-public class Estado implements Cloneable{
-	private Punto node; //Nodo del estado
-	private ArrayList<String> listNodes; //Lista de identificadores osmid de nodos que se desean visitar
-	private String id; //Identificador encriptado en MD5 del estado actual
+public class Estado implements Cloneable {
+	private Punto node; // Nodo del estado
+	private ArrayList<Punto> listNodes; // Lista de identificadores osmid de nodos que se desean visitar
+	private double h;
+	private String id; // Identificador encriptado en MD5 del estado actual
 
-	public Estado(Punto node, ArrayList<String> listNodes, String id) {
+	public Estado(Punto node, ArrayList<Punto> listNodes, String id) {
 		this.node = node;
 		this.listNodes = listNodes;
+		generateH();
 		this.id = id;
 	}
 
@@ -19,30 +21,62 @@ public class Estado implements Cloneable{
 		return id;
 	}
 
-	public ArrayList<String> getListNodes() {
+	public ArrayList<Punto> getListNodes() {
 		return listNodes;
 	}
 
-	//Cambia el estado actual dependiendo del nodo al cual queremos llegar
+	// Cambia el estado actual dependiendo del nodo al cual queremos llegar
 	public void ChangeState(Punto node) {
 		this.node = node;
-		listNodes.remove(node.getID());
+		listNodes.remove(node);
 		UpdateId();
 	}
 
-	//Actualiza el identificador 'id' del estado acutal
+	public double GetH() {
+		return h;
+	}
+
+	private void generateH() {
+		double LatitudDestino, LongitudDestino, LatitudActual, LongitudActual;
+		LatitudDestino = listNodes.get(0).getLatitud();
+		LongitudDestino = listNodes.get(0).getLongitud();
+		LatitudActual = node.getLatitud();
+		LongitudActual = node.getLongitud();
+
+		double phiDest, phiAct, thetaDest, thetaAct;
+		phiDest = Math.toRadians(LatitudDestino);
+		phiAct = Math.toRadians(LatitudActual);
+		thetaDest = Math.toRadians(LongitudDestino);
+		thetaAct = Math.toRadians(LongitudActual);
+
+		double d_phi, d_theta;
+		d_phi = phiDest - phiAct;
+		d_theta = thetaDest - thetaAct;
+
+		double x, arc;
+		x = Math.pow(Math.sin(d_phi / 2), 2.0) + Math.cos(phiDest) + Math.cos(phiAct)
+				+ Math.pow(Math.sin(d_theta / 2), 2.0);
+		x = Math.min(1.0, x);
+
+		arc = 2 * Math.asin(Math.sqrt(x));
+		
+		this.h= arc*6371009;
+
+	}
+
+	// Actualiza el identificador 'id' del estado acutal
 	public void UpdateId() {
 
 		String Concat = node.getID();
 
-		for (String node : listNodes) {
-			Concat += node;
+		for (Punto node : listNodes) {
+			Concat += node.getID();
 		}
 
 		id = MD5(Concat);
 	}
-	
-	//Encripta el estado acutal en MD5
+
+	// Encripta el estado acutal en MD5
 	public String MD5(String md5) {
 		try {
 			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -56,7 +90,7 @@ public class Estado implements Cloneable{
 		}
 		return null;
 	}
-	
+
 	public String toString() {
 		String cadenaEstado = "Estoy en " + node.getID() + " y tengo que visitar " + listNodes.toString();
 		return cadenaEstado;

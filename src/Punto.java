@@ -9,6 +9,11 @@ public class Punto implements Element{
 		
 	}
 	
+	public Punto(String osmid, double longitud, double latitud) {
+		this.osmid=osmid;
+		this.longitud=longitud;
+		this.latitud=latitud;
+	}
 	/**
 	 * @return the osmid
 	 */
@@ -51,5 +56,9 @@ public class Punto implements Element{
 		this.latitud = latitud;
 	}
 	
+	@Override
+	public String toString() {
+		return this.osmid;
+	}
 	
 }

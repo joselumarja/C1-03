@@ -106,8 +106,10 @@ public class MetodosDeBusqueda {
 					f = -(n_actual.GetProfundidad() + 1);
 					break;
 				case BusquedaVoraz:
+					f=n_actual.GetEstado().GetH();
 					break;
 				case BusquedaAAsterisco:
+					f=n_actual.GetEstado().GetH()+n_actual.GetCamino();
 					break;
 				}
 				n_sucesor = new Nodo(n_actual, s.getEstadoNuevo(), s.getCoste() + n_actual.GetCamino(),

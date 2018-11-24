@@ -25,7 +25,7 @@ public class EspacioDeEstados {
 		ArrayList<Arista> AristasAdyacentes=grafo.adyacentesNodo(estado.GetNode().getID());
 		Estado nuevoEstado;
 		for (Arista a : AristasAdyacentes) { //Recorremos todas las aristas adyacentes al nodo del estado actual
-			nuevoEstado = new Estado(estado.GetNode(), new ArrayList<String>(estado.getListNodes()), estado.GetId());//Almacenamos el estado acutal en un nuevo objeto para poder modificarlo sin perder los datos
+			nuevoEstado = new Estado(estado.GetNode(), new ArrayList<Punto>(estado.getListNodes()), estado.GetId());//Almacenamos el estado acutal en un nuevo objeto para poder modificarlo sin perder los datos
 			//Estado nuevoEstado = (Estado) estado.clone(); 
 			nuevoEstado.ChangeState((grafo.getGrafo().getVertex(a.getDestino())).getElement()); //Cambiamos el estado acutal al nuevo estado
 			//Creamos un objeto sucesor con los datos necesarios
@@ -45,13 +45,17 @@ public class EspacioDeEstados {
 		//Comprueba si un nodo de un estado pertenece al grafo
 		if(!grafo.perteneceNodo(estado.GetNode().getID())) esta = false;
 		//Comprueba si los nodos de la lista de nodos que hay que visitar se encuentran en el grafo
-		for (String node : estado.getListNodes()) {
-			if(!grafo.perteneceNodo(node)) {
+		for (Punto node : estado.getListNodes()) {
+			if(!grafo.perteneceNodo(node.getID())) {
 				esta = false;
 				break;
 			}
 		}
 		return esta;
+	}
+	
+	public Punto getPunto(String osmid) {
+		return grafo.posicionNodo(osmid);
 	}
 }
 
