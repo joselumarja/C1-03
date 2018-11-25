@@ -29,7 +29,7 @@ public class EspacioDeEstados {
 			//Estado nuevoEstado = (Estado) estado.clone(); 
 			nuevoEstado.ChangeState((grafo.getGrafo().getVertex(a.getDestino())).getElement()); //Cambiamos el estado acutal al nuevo estado
 			//Creamos un objeto sucesor con los datos necesarios
-			Sucesor sucesor = new Sucesor("Estoy en " + estado.GetNode().getID() + " y voy a " + nuevoEstado.GetNode().getID() + " por " + a.getNombre(), nuevoEstado,
+			Sucesor sucesor = new Sucesor(estado.GetNode().getID() + " -> " + nuevoEstado.GetNode().getID() + " (" + a.getNombre() + ") ", nuevoEstado,
 					a.getLongitud());
 			sucesores.add(sucesor); //Insertamos un sucesor del estado acutal en la lista de sucesores
 		}

@@ -113,7 +113,7 @@ public class MetodosDeBusqueda {
 					break;
 				}
 				n_sucesor = new Nodo(n_actual, s.getEstadoNuevo(), s.getCoste() + n_actual.GetCamino(),
-						n_actual.GetProfundidad() + 1, f);
+						n_actual.GetProfundidad() + 1, f, s.getAccion());
 				LN.add(n_sucesor);
 			}
 		}

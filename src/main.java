@@ -46,7 +46,7 @@ public class main {
 				+ "2. Estrategia de busqueda en profundidad simple\n"
 				+ "3. Estrategia de busqueda en profundidad acotada\n"
 				+ "4. Estrategia de busqueda en profundidad iterativa\n"
-				+ "5. Estrategia de busqueda en coste uniforme"
+				+ "5. Estrategia de busqueda en coste uniforme\n"
 				+ "6. Estrategia de busqueda Voraz\n" + "7. Estrategia de busqueda A*\n");
 		do {
 
@@ -70,7 +70,7 @@ public class main {
 	public static ArrayList<Nodo> Busqueda(Problema Prob, TipoDeBusqueda TBusqueda){
 		Frontera frontera = new Frontera();
 		ArrayList<Nodo> solucion=null;
-		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0);
+		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0, "None");
 		Prob.anadirVisitado(n_inicial);
 		frontera.Insertar(n_inicial);
 		switch(TBusqueda) {
