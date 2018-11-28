@@ -36,12 +36,25 @@ public class Estado implements Cloneable {
 		return h;
 	}
 
-	private void generateH() {
+	public void generateH() {
+		double hmin = -1, haux;
+		for (Punto p : listNodes) {
+
+			haux = CalcDistance(node, p);
+			if (hmin == -1 || haux < hmin) {
+				hmin = haux;
+			}
+
+		}
+		this.h = hmin;
+	}
+
+	private double CalcDistance(Punto origen, Punto Destino) {
 		double LatitudDestino, LongitudDestino, LatitudActual, LongitudActual;
-		LatitudDestino = listNodes.get(0).getLatitud();
-		LongitudDestino = listNodes.get(0).getLongitud();
-		LatitudActual = node.getLatitud();
-		LongitudActual = node.getLongitud();
+		LatitudDestino = Destino.getLatitud();
+		LongitudDestino = Destino.getLongitud();
+		LatitudActual = origen.getLatitud();
+		LongitudActual = origen.getLongitud();
 
 		double phiDest, phiAct, thetaDest, thetaAct;
 		phiDest = Math.toRadians(LatitudDestino);
@@ -59,8 +72,8 @@ public class Estado implements Cloneable {
 		x = Math.min(1.0, x);
 
 		arc = 2 * Math.asin(Math.sqrt(x));
-		
-		this.h= arc*6371009;
+
+		return arc * 6371009;
 
 	}
 
