@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class main {
 	private static Scanner sc = new Scanner(System.in);
@@ -127,10 +129,13 @@ public class main {
 		try {
 			fich_solucion = new FileWriter("solucion.txt");
 			pw = new PrintWriter(fich_solucion);
-
-			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Recorridoss:"
+			
+			BigDecimal coste = new BigDecimal(Double.toString(solucion.get(solucion.size()-1).GetCamino()));
+		    coste = coste.setScale(1, RoundingMode.HALF_UP);
+		    
+			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Recorridos:"
 					+ Prob.getRecorridos().size() + "\r\nTotal Nodos Generados:"+Prob.GetGenerados()+"\r\nProfundidad:" + solucion.get(solucion.size()-1).GetProfundidad()
-					+ "\r\nCosto:" + solucion.get(solucion.size()-1).GetCamino()+"\r\n\r\n");
+					+ "\r\nCosto:" + coste+"\r\n\r\n");
 			while(!solucion.isEmpty()) {
 				nodo = solucion.remove(0);
 				pw.println(nodo);

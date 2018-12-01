@@ -1,4 +1,5 @@
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Nodo {
 	private Nodo Padre; // Nodo padre
@@ -63,8 +64,11 @@ public class Nodo {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		DecimalFormat df = new DecimalFormat("#");
-        df.setMaximumFractionDigits(2);
-		return Accion + String.valueOf(Camino) + " " + String.valueOf(P) + " " + df.format(F);
+		BigDecimal f_bd = new BigDecimal(Double.toString(F));
+	    f_bd = f_bd.setScale(1, RoundingMode.HALF_UP);
+	    BigDecimal camino_bd = new BigDecimal(Double.toString(Camino));
+	    camino_bd = camino_bd.setScale(1, RoundingMode.HALF_UP);
+		
+		return Accion + camino_bd + " " + String.valueOf(P) + " " + f_bd;
 	}
 }
