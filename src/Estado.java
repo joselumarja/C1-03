@@ -67,12 +67,12 @@ public class Estado implements Cloneable {
 		d_theta = thetaDest - thetaAct;
 
 		double x, arc;
-		x = Math.pow(Math.sin(d_phi / 2), 2.0) + Math.cos(phiDest) + Math.cos(phiAct)
-				+ Math.pow(Math.sin(d_theta / 2), 2.0);
+		x = Math.pow(Math.sin(d_phi / 2), 2.0) + Math.cos(phiAct) * Math.cos(phiDest)
+				* Math.pow(Math.sin(d_theta / 2), 2.0);
 		x = Math.min(1.0, x);
 
 		arc = 2 * Math.asin(Math.sqrt(x));
-
+		
 		return arc * 6371009;
 
 	}

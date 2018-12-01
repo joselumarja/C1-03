@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 
 public class Nodo {
 	private Nodo Padre; // Nodo padre
@@ -62,6 +63,8 @@ public class Nodo {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return Accion + String.valueOf(Camino) + " " + String.valueOf(P) + " " + String.valueOf(F);
+		DecimalFormat df = new DecimalFormat("#");
+        df.setMaximumFractionDigits(2);
+		return Accion + String.valueOf(Camino) + " " + String.valueOf(P) + " " + df.format(F);
 	}
 }
