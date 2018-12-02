@@ -75,16 +75,18 @@ public class main {
 		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0, "None");
 		Prob.anadirVisitado(n_inicial);
 		frontera.Insertar(n_inicial);
+		int Prof_Max;
 		switch(TBusqueda) {
 		case BusquedaVoraz:
 		case BusquedaAAsterisco:
 		case BusquedaEnAnchura:
 		case BusquedaEnProfundidadSimple:
 		case BusquedaDeCostoUniforme:
-			solucion=MetodosDeBusqueda.BusquedaSimple(Prob,frontera, TBusqueda);
+			Prof_Max = solicitarNumero("Introduce la profundidad máxima: ");
+			solucion=MetodosDeBusqueda.BusquedaSimple(Prob,frontera, TBusqueda, Prof_Max);
 			break;
 		case BusquedaEnProfundidadAcotada:
-			int Prof_Max = solicitarNumero("Introduce la profundidad maxima: ");
+			Prof_Max = solicitarNumero("Introduce la profundidad máxima: ");
 			solucion=MetodosDeBusqueda.BusquedaEnProfundidadAcotada(Prob,frontera,TBusqueda,Prof_Max);
 			break;
 		case BusquedaEnProfundidadIterativa:

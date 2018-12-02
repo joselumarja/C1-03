@@ -64,16 +64,16 @@ public class MetodosDeBusqueda {
 
 		return null;
 	}
-	
+
 	/*Sirve tanto para la busqueda en Profundidad, Anchura, De Costo Uniforme, Voraz y A*. Lo unico que varia es como se ordenan los nodos en la frontera*/
-	public static ArrayList<Nodo> BusquedaSimple(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda)
+	public static ArrayList<Nodo> BusquedaSimple(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max)
 	{
 		while (!front.EsVacia()) {
 			Nodo n = front.Elimina();
 			Prob.anadirVisitado(n);
 			if (Prob.esObjetivo(n.GetEstado())) {
 				return CreaSolucion(n);
-			} else {
+			} else if (n.GetProfundidad() < Prof_Max){
 				ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n.GetEstado());
 				ArrayList<Nodo> LN = CreaListaNodosArbol(LS, front, Prob, n, TBusqueda);
 				front.InsertaLista(LN);
