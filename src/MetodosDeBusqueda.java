@@ -73,8 +73,13 @@ public class MetodosDeBusqueda {
 	public static ArrayList<Nodo> Busqueda(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max,
 			int Inc_Prof) {
 		ArrayList<Nodo> solucion = null;
+		Nodo n_inicial;
 		// Se crea el nodo raiz
-		Nodo n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0, "None");
+		if(TBusqueda == TipoDeBusqueda.BusquedaVoraz || TBusqueda == TipoDeBusqueda.BusquedaAAsterisco) {
+			n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, Prob.getEstadoIn().GetH(), "None ");
+		}else{
+			n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0, "None ");
+		}
 		// Añadimos el nodo raiz a la lista de visitados
 		Prob.anadirVisitado(n_inicial);
 		// Insertamos el nodo raiz a la frontera
