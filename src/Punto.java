@@ -17,7 +17,7 @@ public class Punto implements Element{
 	/**
 	 * @return the osmid
 	 */
-	public String getID() { //Metodo que devuelve un identificador único para representar un vértice en el grafo.
+	public String getID() { //Metodo que devuelve un identificador ï¿½nico para representar un vï¿½rtice en el grafo.
 		return osmid;
 	}
 	

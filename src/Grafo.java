@@ -1,16 +1,11 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.xml.sax.SAXException;
-
 import graphsDSESIUCLM.Edge;
 import graphsDSESIUCLM.Graph;
-import graphsDSESIUCLM.TreeMapGraph;
 import graphsDSESIUCLM.Vertex;
 
 public class Grafo{
@@ -49,8 +44,8 @@ public class Grafo{
 	
 	/*
 	 * Funcionalidad 2: Nos da la longitud y latitud de un nodo del grafo.
-	 * Devuelve un objeto de la clase Punto en el caso caso de que el identificador exista en el
-	 * grafo del pueblo, en caso contrario devolver� un null.
+	 * Devuelve un objeto de la clase Punto en el caso de que el identificador exista en el
+	 * grafo del pueblo, en caso contrario devolvera un null.
 	 */
 	public Punto posicionNodo(String osmId) {
 		Iterator<Vertex<Punto>> nodos=grafo.getVertices(); //Obtenemos todos los vertices de un grafo.

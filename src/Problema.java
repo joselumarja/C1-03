@@ -83,10 +83,6 @@ public class Problema {
 		return e.getListNodes().isEmpty();
 	}
 
-	public void IncrementarGenerados() {
-		NodosGenerados++;
-	}
-
 	public void IncrementarGenerados(int Incremento) {
 		NodosGenerados += Incremento;
 	}
@@ -101,6 +97,7 @@ public class Problema {
 		for (i = 0; i < recorridos.size(); i++) {
 			if (recorridos.get(i).GetEstado().GetId().equals(nodo.GetEstado().GetId())) {
 				if (Math.abs(recorridos.get(i).GetF()) > Math.abs(nodo.GetF())) {
+					recorridos.remove(i);
 					recorridos.add(nodo);
 					anadido = true;
 				} else {
@@ -116,25 +113,12 @@ public class Problema {
 		return anadido;
 	}
 
-	public void limpiarRecorridos() {
-		recorridos = new ArrayList<Nodo>();
-	}
-
 	public EspacioDeEstados getEspacioDeEstados() {
 		return espacioDeEstados;
 	}
 
 	public Estado getEstadoIn() {
 		return estadoInicial;
-	}
-
-	public boolean EstaVisitado(Nodo n) {
-		for (Nodo x : recorridos) {
-			if (n.GetEstado().GetId().equals(x.GetEstado().GetId()))
-				return true;
-		}
-
-		return false;
 	}
 
 	public boolean EstaVisitado(String id) {
@@ -144,6 +128,10 @@ public class Problema {
 		}
 
 		return false;
+	}
+	
+	public void LimpiarVisitados() {
+		recorridos = new ArrayList<Nodo>();
 	}
 
 	/**

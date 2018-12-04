@@ -8,6 +8,10 @@ import graphsDSESIUCLM.Graph;
 import graphsDSESIUCLM.TreeMapGraph;
 import graphsDSESIUCLM.Vertex;
 
+/*
+ * Clase FileHandler que sirve para leer el archivo .graphml y crear el grafo del mapa del pueblo con todos 
+ * los puntos y aristas que lo unen.
+ */
 public class FileHandler extends DefaultHandler{
 	private Graph<Punto,Arista> grafo = new TreeMapGraph<Punto,Arista>(); //Grafo del pueblo.
 	private StringBuilder buffer = new StringBuilder(); //Buffer para leer los datos.
@@ -16,6 +20,9 @@ public class FileHandler extends DefaultHandler{
 	private String tipoData; //Cadena donde guardaremos que tipo de dato estamos leyendo.
 	private String nombre_d, latitud_d, longitud_d, n_osmid_d, e_osmid_d, distancia_d, ref_d;
 	
+	/*
+	 * Metodo get que devuelve el grafo del mapa del pueblo con los puntos y aristas que lo unen.
+	 */
 	public Graph<Punto,Arista> getGrafo() {
 		return grafo;
 	}
@@ -24,7 +31,7 @@ public class FileHandler extends DefaultHandler{
 	 * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
 	 */
 	/*
-	 * Método el cual es llamado cuando se reconoce una cadena (texto, entre una cabecera de entrada y de salida) 
+	 * Metodo el cual es llamado cuando se reconoce una cadena (texto, entre una cabecera de entrada y de salida) 
 	 * mientras se lee el archivo.
 	 */
 	@Override
@@ -37,8 +44,8 @@ public class FileHandler extends DefaultHandler{
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	/*
-	 * Método el cual es llamado cuando se reconoce una cabecera de salida mientras se lee el archivo.
-	 * Clasificamos la acción a realizar dependiendo de cual sea el nombre de la cabecera (qName).
+	 * Metodo el cual es llamado cuando se reconoce una cabecera de salida mientras se lee el archivo.
+	 * Clasificamos la accion a realizar dependiendo de cual sea el nombre de la cabecera (qName).
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -73,7 +80,7 @@ public class FileHandler extends DefaultHandler{
 			else if(tipoData.equals(distancia_d)) {
 				arista.setLongitud(Double.parseDouble(buffer.toString()));//Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
 			}
-			/*switch(tipoData) { //Dependiendo de cual sea el tipo realizamos una acción:
+			/*switch(tipoData) { //Dependiendo de cual sea el tipo realizamos una acciï¿½n:
 			case "d4": //Almacenamos en el objeto punto la latitud del nodo.
 				punto.setLatitud(Double.parseDouble(buffer.toString()));
 				break; 
@@ -127,14 +134,14 @@ public class FileHandler extends DefaultHandler{
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
 	 */
 	/*
-	 * Método el cual es llamado cuando se reconoce una cabecera de entrada mientras se lee el archivo.
-	 * Clasificamos la acción a realizar dependiendo de cual sea el nombre de la cabecera (qName) y sus atributos (attributes).
+	 * Metodo el cual es llamado cuando se reconoce una cabecera de entrada mientras se lee el archivo.
+	 * Clasificamos la acciï¿½n a realizar dependiendo de cual sea el nombre de la cabecera (qName) y sus atributos (attributes).
 	 */
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		// TODO Auto-generated method stub
 		switch(qName) {
-		case "key":
+		case "key": // A traves de la etiqueta key se obtiene los valores de las otras etiquetas
 			String val_atrib = attributes.getValue("attr.name");
 			String uso = attributes.getValue("for");
 			

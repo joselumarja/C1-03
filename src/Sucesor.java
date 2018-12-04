@@ -1,4 +1,3 @@
-
 public class Sucesor {
 	private String accion; //String que representa la acción para llegar a otro estado
 	private Estado estadoNuevo; //Estado nuevo a partir del cual llegamos realizando la acción anterior
