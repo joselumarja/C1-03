@@ -56,7 +56,7 @@ public class Problema {
 		// Guardamos el identificador del estado en MD5 del estado inicial (se obtiene
 		// del JsonObjeto del estado del estado inicial)
 		String id = estadoOrigen.get("id").getAsString();
-		
+
 		path = path + ".xml";
 		this.espacioDeEstados = new EspacioDeEstados(path); // Creamos el espacio de estados a partir del nombre del
 															// archivo .graphml a leer
@@ -92,24 +92,18 @@ public class Problema {
 	}
 
 	public boolean anadirVisitado(Nodo nodo) { // Metodo que comprueba si un nodo ya ha sido visitado
-		boolean anadido = false;
-		int i;
-		for (i = 0; i < recorridos.size(); i++) {
-			if (recorridos.get(i).GetEstado().GetId().equals(nodo.GetEstado().GetId())) {
-				if (Math.abs(recorridos.get(i).GetF()) > Math.abs(nodo.GetF())) {
-					recorridos.remove(i);
-					recorridos.add(nodo);
-					anadido = true;
-				} else {
-					anadido = false;
-				}
-				break;
+		boolean anadido = true;
+
+		for (Nodo rec : recorridos) {
+			if (rec.GetEstado().GetId().equals(nodo.GetEstado().GetId()) && rec.GetCamino() < nodo.GetCamino()) {
+				anadido = false;
 			}
 		}
-		if (i == recorridos.size()) {
+
+		if (anadido) {
 			recorridos.add(nodo);
-			anadido = true;
 		}
+
 		return anadido;
 	}
 
@@ -129,7 +123,7 @@ public class Problema {
 
 		return false;
 	}
-	
+
 	public void LimpiarVisitados() {
 		recorridos = new ArrayList<Nodo>();
 	}
