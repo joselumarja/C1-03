@@ -11,6 +11,9 @@ public class Arista implements Element {
 	private String origen; // Identificador del nodo origen de una calle.
 	private String destino; // Identificador del nodo destino de una calle.
 
+	/*
+	 * Constructor vacio el cual crea una instancia de dicha clase
+	 */
 	public Arista() {
 
 	}

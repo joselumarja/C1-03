@@ -1,64 +1,67 @@
 import graphsDSESIUCLM.Element;
 
-public class Punto implements Element{
-	private String osmid; //OsmId de un nodo.
-	private double longitud; //Longitud de un nodo.
-	private double latitud; //Latitud de un nodo.
-	
-	public Punto() {
-		
-	}
-	
-	public Punto(String osmid, double longitud, double latitud) {
-		this.osmid=osmid;
-		this.longitud=longitud;
-		this.latitud=latitud;
-	}
-	/**
-	 * @return the osmid
+/*
+ * Clase Punto que representa un punto del mapa del pueblo con un identificador unico 
+ * y los valores de las coordenadas longitud y latitud
+ */
+
+public class Punto implements Element {
+	private String osmid; // Osmid de un punto del mapa del pueblo.
+	private double longitud; // Valor de la longitud de un punto del mapa del pueblo.
+	private double latitud; // Valor de la latitud de un punto del mapa del pueblo.
+
+	/*
+	 * Constructor vacio el cual crea una instancia de dicha clase
 	 */
-	public String getID() { //Metodo que devuelve un identificador �nico para representar un v�rtice en el grafo.
+	public Punto() {
+
+	}
+
+	/**
+	 * Metodo get que devuelve un identificador unico para representar un punto del
+	 * mapa del pueblo
+	 */
+	public String getID() { //
 		return osmid;
 	}
-	
+
 	/**
-	 * @param osmid the osmid to set
+	 * Metodo set que modifica el identificador unico para representar un punto del
+	 * mapa del pueblo con el valor pasado como parametro
 	 */
 	public void setOsmid(String osmid) {
 		this.osmid = osmid;
 	}
-	
+
 	/**
-	 * @return the longitud
+	 * Metodo get que devuelve el valor de la longitud de un punto del mapa del
+	 * pueblo
 	 */
 	public double getLongitud() {
 		return longitud;
 	}
-	
+
 	/**
-	 * @param longitud the longitud to set
+	 * Metodo set que modifica el valor de la longitud de un punto del mapa del
+	 * pueblo por el valor pasado como parametro
 	 */
 	public void setLongitud(double longitud) {
 		this.longitud = longitud;
 	}
-	
+
 	/**
-	 * @return the latitud
+	 * Metodo get que devuelve el valor de la latitud de un punto del mapa del
+	 * pueblo
 	 */
 	public double getLatitud() {
 		return latitud;
 	}
-	
+
 	/**
-	 * @param latitud the latitud to set
+	 * Metodo set que modifica el valor de la latitud de un punto del mapa del
+	 * pueblo por el valor pasado como parametro
 	 */
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
-	
-	@Override
-	public String toString() {
-		return this.osmid;
-	}
-	
 }

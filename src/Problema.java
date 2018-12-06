@@ -10,11 +10,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/*
+ * Clase Problema la cual representa el problema planteado con un espacio de estados y 
+ * un estado inicial los cuales son leidos a traves de un metodo que lee un archivo .json, 
+ * ademas tiene una lista de visitados para controlar los nodos que se tienen que generar 
+ * en la busqueda con metodos que manejan dicha lista
+ */
 public class Problema {
 	private EspacioDeEstados espacioDeEstados; // Espacio de estados del problema
 	private Estado estadoInicial; // Estado inicial por el que empieza el problema
-	private ArrayList<Nodo> recorridos;
-	private int NodosGenerados;
+	private ArrayList<Nodo> recorridos; // Lista de nodos que ya se han visitado
+	private int NodosGenerados; // Numero de nodos que ya se han generado
 
 	public Problema(String archivoProblema) {
 		leerProblema(archivoProblema);
@@ -23,9 +29,9 @@ public class Problema {
 	}
 
 	/*
-	 * Lee el problema que se nos plantea en el archivo .json Almacena el espacio de
-	 * estados leyendo el archivo .graphml correspondiente y el estado inicial en el
-	 * cual debemos empezar el problema
+	 * Metodo que lee el problema que se nos plantea en el archivo .json Almacena el
+	 * espacio de estados leyendo el archivo .graphml correspondiente y el estado
+	 * inicial en el cual debemos empezar el problema
 	 */
 	public void leerProblema(String archivoProblema) {
 		// Guardamos el contenido del archivo .json en un StringBuilder para su lectura
@@ -58,8 +64,8 @@ public class Problema {
 		String id = estadoOrigen.get("id").getAsString();
 
 		path = path + ".xml";
-		this.espacioDeEstados = new EspacioDeEstados(path); // Creamos el espacio de estados a partir del nombre del
-															// archivo .graphml a leer
+		// Creamos el espacio de estados a partir del nombre del archivo .graphml a leer
+		this.espacioDeEstados = new EspacioDeEstados(path);
 
 		// Guardamos la lista de nodos que debemos visitar en el problema planteado (se
 		// obtiene del JsonObjeto del estado inicial)
@@ -79,19 +85,36 @@ public class Problema {
 				id);
 	}
 
+	/*
+	 * Metodo que comprueba si un estado pasado como parametro es objetivo o no.
+	 * Devuelve 'true' si la lista de nodos esta vacia o 'false' si hay algun
+	 * elemento aun
+	 */
 	public boolean esObjetivo(Estado e) {
 		return e.getListNodes().isEmpty();
 	}
 
+	/*
+	 * Metodo que incrementa el numero de nodos generados en funcion del valor
+	 * pasado como parametro
+	 */
 	public void IncrementarGenerados(int Incremento) {
 		NodosGenerados += Incremento;
 	}
 
+	/*
+	 * Metodo get que devuelve el numero de nodos generados
+	 */
 	public int GetGenerados() {
 		return NodosGenerados;
 	}
 
-	public boolean anadirVisitado(Nodo nodo) { // Metodo que comprueba si un nodo ya ha sido visitado
+	/*
+	 * Metodo que añade un nodo a la lista de nodos vistados en el caso de que no se
+	 * encuentre aun o en el caso de que ya se encuentre un nodo con el mismo estado
+	 * pero que sea peor que el nodo que se quiere añadir
+	 */
+	public boolean anadirVisitado(Nodo nodo) {
 		boolean anadido = true;
 
 		for (Nodo rec : recorridos) {
@@ -107,29 +130,44 @@ public class Problema {
 		return anadido;
 	}
 
+	/*
+	 * Metodo get que devuelve el espacio de estados del problema leido del archivo
+	 * .json
+	 */
 	public EspacioDeEstados getEspacioDeEstados() {
 		return espacioDeEstados;
 	}
 
+	/*
+	 * Metodo get que devuelve el estado inicial del problema leido del archivo
+	 * .json
+	 */
 	public Estado getEstadoIn() {
 		return estadoInicial;
 	}
 
+	/*
+	 * Metodo que comprueba si un nodo se encuentra en la lista de visitados
+	 * pasandole el identificador MD5 del nodo. Devuelve 'true' si se encuentra y
+	 * 'false' si no se encuentra
+	 */
 	public boolean EstaVisitado(String id) {
 		for (Nodo x : recorridos) {
 			if (id.equals(x.GetEstado().GetId()))
 				return true;
 		}
-
 		return false;
 	}
 
+	/*
+	 * Metodo que limpia la lista de visitados inicializandola a 0
+	 */
 	public void LimpiarVisitados() {
 		recorridos = new ArrayList<Nodo>();
 	}
 
 	/**
-	 * @return the recorridos
+	 * Metodo get que devuelve la lista de nodos visitados/recorridos
 	 */
 	public ArrayList<Nodo> getRecorridos() {
 		return recorridos;
