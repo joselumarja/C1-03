@@ -124,7 +124,6 @@ public class main {
 		// Se solicita la profundidad maxima y el incremento de profundidad
 		int Prof_Max = solicitarNumero("Introduce la profundidad máxima: ");
 		int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
-		// Si la profundidad maxima es menor que el incremento se vuelve a solicitar
 		if (Inc_Prof > Prof_Max) {
 			int aux = Inc_Prof;
 			Inc_Prof = Prof_Max;
