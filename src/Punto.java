@@ -64,4 +64,9 @@ public class Punto implements Element {
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
+	
+	@Override
+	public String toString() {
+		return osmid;
+	}
 }

@@ -80,34 +80,6 @@ public class FileHandler extends DefaultHandler{
 			else if(tipoData.equals(distancia_d)) {
 				arista.setLongitud(Double.parseDouble(buffer.toString()));//Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
 			}
-			/*switch(tipoData) { //Dependiendo de cual sea el tipo realizamos una acci�n:
-			case "d4": //Almacenamos en el objeto punto la latitud del nodo.
-				punto.setLatitud(Double.parseDouble(buffer.toString()));
-				break; 
-			case "d5": //Almacenamos en el objeto punto la longitud del nodo.
-				punto.setLongitud(Double.parseDouble(buffer.toString()));
-				break;
-			case "d6":
-				punto.setOsmid(buffer.toString()); //Almacenamos en el objeto punto el identificador osmid del nodo.
-				break;
-			case "d7":
-				if (buffer.toString().charAt(0) == '[') { //En el caso de que haya varios cogeremos solo el primero.
-					String [] parts = buffer.toString().substring(1, buffer.toString().length() - 1).split(",");
-					arista.setOsmid(parts[0]);
-				}
-				else arista.setOsmid(buffer.toString()); //Almacenamos en el objeto arista el identificador osmid de la calle.
-				break;
-			case "d13":
-			case "d14":
-				if (buffer.toString().charAt(0) == '[') //En el caso de que haya varios cogeremos la cadena entera
-														//representado el camino a realizar.
-					arista.setNombre(buffer.toString().substring(1, buffer.toString().length() - 1));
-				else arista.setNombre(buffer.toString()); //Almacenamos en el objeto arista el nombre de la calle.
-				break;
-			case "d11":
-				arista.setLongitud(Double.parseDouble(buffer.toString())); //Almacenamos en el objeto arista la longitud de la calle entre los nodos origen y destino.
-				break;
-			}*/
 			break;
 		case "edge":
 			if(arista.getNombre() == null) //Si en el archivo no se ha especificado el nombre de una arista se le pondra 'Sin Nombre'.

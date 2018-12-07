@@ -21,32 +21,26 @@ public class main {
 
 		System.out.print("Introduce el archivo donde esta el problema: ");
 		String archivoProblema = sc.nextLine();
-		
+
 		TipoDeBusqueda TBusqueda = null;
 		switch (solicitarEstrategia()) {
 		case 1:
 			TBusqueda = TipoDeBusqueda.BusquedaEnAnchura;
 			break;
 		case 2:
-			TBusqueda = TipoDeBusqueda.BusquedaEnProfundidadSimple;
+			TBusqueda = TipoDeBusqueda.BusquedaEnProfundidad;
 			break;
 		case 3:
-			TBusqueda = TipoDeBusqueda.BusquedaEnProfundidadAcotada;
-			break;
-		case 4:
-			TBusqueda = TipoDeBusqueda.BusquedaEnProfundidadIterativa;
-			break;
-		case 5:
 			TBusqueda = TipoDeBusqueda.BusquedaDeCostoUniforme;
 			break;
-		case 6:
+		case 4:
 			TBusqueda = TipoDeBusqueda.BusquedaVoraz;
 			break;
-		case 7:
+		case 5:
 			TBusqueda = TipoDeBusqueda.BusquedaAAsterisco;
 			break;
 		}
-		
+
 		Problema Prob = new Problema(archivoProblema);
 		ArrayList<Nodo> solucion = Resolver(Prob, TBusqueda);
 
@@ -55,32 +49,38 @@ public class main {
 					"No se ha encontrado solucion y se han generado " + Prob.getRecorridos().size() + " nodos");
 		else
 			imprimir(solucion, TBusqueda, Prob);
-			crearGPX(solucion, TBusqueda, Prob);
+		crearGPX(solucion, TBusqueda, Prob);
 	}
 
 	public static int solicitarEstrategia() {
 		int opcion;
 		System.out.println("Estrategias de busqueda:");
 		System.out
-				.println("1. Estrategia de busqueda en anchura\n" + "2. Estrategia de busqueda en profundidad simple\n"
-						+ "3. Estrategia de busqueda en profundidad acotada\n"
-						+ "4. Estrategia de busqueda en profundidad iterativa\n"
-						+ "5. Estrategia de busqueda en coste uniforme\n" + "6. Estrategia de busqueda Voraz\n"
-						+ "7. Estrategia de busqueda A*\n");
+				.println("1. Estrategia de busqueda en anchura\n" 
+						+ "2. Estrategia de busqueda en profundidad\n"
+						+ "3. Estrategia de busqueda en coste uniforme\n" 
+						+ "4. Estrategia de busqueda Voraz\n"
+						+ "5. Estrategia de busqueda A*\n");
 		do {
 
-			opcion = solicitarNumero("Introduce el numero de una estrategia de busqueda (1-7): ");
+			opcion = solicitarNumero("Introduce el numero de una estrategia de busqueda (1-5): ");
 
-		} while (opcion > 7);
+		} while (opcion > 5);
 
 		return opcion;
 	}
 
 	public static int solicitarNumero(String solicitud) {
-		int numero;
+		int numero = -1;
 		do {
-			System.out.print(solicitud);
-			numero = sc.nextInt();
+			try 
+			{
+				System.out.print(solicitud);
+				numero = sc.nextInt();
+			} catch (Exception e) {
+				
+			}
+
 		} while (numero <= 0);
 
 		return numero;
@@ -96,11 +96,7 @@ public class main {
 					"La profundidad máxima debe ser mayor o igual al incremento de profundidad\nIntroduce el incremento de profundidad: ");
 		}
 		solucion = MetodosDeBusqueda.Busqueda(Prob, frontera, TBusqueda, Prof_Max, Inc_Prof);
-			/*
-		case BusquedaEnProfundidadIterativa:
-			solucion = MetodosDeBusqueda.BusquedaEnProfundidadIterativa(Prob, frontera, TBusqueda, Prof_Max, Inc_Prof);
-			break;
-			*/
+
 		return solucion;
 	}
 
@@ -111,14 +107,8 @@ public class main {
 		case BusquedaEnAnchura:
 			estrategiaCadena = "Anchura";
 			break;
-		case BusquedaEnProfundidadSimple:
+		case BusquedaEnProfundidad:
 			estrategiaCadena = "Profundidad Simple";
-			break;
-		case BusquedaEnProfundidadAcotada:
-			estrategiaCadena = "Profundidad Acotada";
-			break;
-		case BusquedaEnProfundidadIterativa:
-			estrategiaCadena = "Profundidad Iterativa";
 			break;
 		case BusquedaDeCostoUniforme:
 			estrategiaCadena = "Coste Uniforme";
@@ -144,7 +134,7 @@ public class main {
 					+ Prob.getRecorridos().size() + "\r\nTotal Nodos Generados:" + Prob.GetGenerados()
 					+ "\r\nProfundidad:" + solucion.get(solucion.size() - 1).GetProfundidad() + "\r\nCosto:" + coste
 					+ "\r\n\r\n");
-			for(int i = 0; i < solucion.size(); i++) {
+			for (int i = 0; i < solucion.size(); i++) {
 				nodo = solucion.get(i);
 				pw.println(nodo);
 				pw.println(nodo.GetEstado() + "\r\n");
@@ -154,20 +144,23 @@ public class main {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void crearGPX(ArrayList<Nodo> solucion, TipoDeBusqueda TBusqueda, Problema Prob) {
 		GPX gpx = new GPX();
-		Waypoint point = new Waypoint(Prob.getEstadoIn().GetNode().getLatitud(), Prob.getEstadoIn().GetNode().getLongitud());
+		Waypoint point = new Waypoint(Prob.getEstadoIn().GetNode().getLatitud(),
+				Prob.getEstadoIn().GetNode().getLongitud());
 		point.setName("[I]" + Prob.getEstadoIn().GetNode().getID());
 		gpx.addWaypoint(point);
-		for(int i = 0; i < Prob.getEstadoIn().getListNodes().size(); i++) {
-			point = new Waypoint(Prob.getEstadoIn().getListNodes().get(i).getLatitud(), Prob.getEstadoIn().getListNodes().get(i).getLongitud());
+		for (int i = 0; i < Prob.getEstadoIn().getListNodes().size(); i++) {
+			point = new Waypoint(Prob.getEstadoIn().getListNodes().get(i).getLatitud(),
+					Prob.getEstadoIn().getListNodes().get(i).getLongitud());
 			point.setName("[V]" + Prob.getEstadoIn().getListNodes().get(i).getID());
 			gpx.addWaypoint(point);
 		}
 		TrackSegment trackSegment = new TrackSegment();
-		for(int i = 0; i < solucion.size(); i++) {
-			point = new Waypoint(solucion.get(i).GetEstado().GetNode().getLatitud(), solucion.get(i).GetEstado().GetNode().getLongitud());
+		for (int i = 0; i < solucion.size(); i++) {
+			point = new Waypoint(solucion.get(i).GetEstado().GetNode().getLatitud(),
+					solucion.get(i).GetEstado().GetNode().getLongitud());
 			trackSegment.addWaypoint(point);
 		}
 		Track track = new Track();

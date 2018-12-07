@@ -114,12 +114,25 @@ public class Problema {
 	 * encuentre aun o en el caso de que ya se encuentre un nodo con el mismo estado
 	 * pero que sea peor que el nodo que se quiere añadir
 	 */
-	public boolean anadirVisitado(Nodo nodo) {
+	public boolean anadirVisitado(Nodo nodo, TipoDeBusqueda TBusqueda) {
 		boolean anadido = true;
 
 		for (Nodo rec : recorridos) {
-			if (rec.GetEstado().GetId().equals(nodo.GetEstado().GetId()) && rec.GetCamino() < nodo.GetCamino()) {
-				anadido = false;
+			if (rec.GetEstado().GetId().equals(nodo.GetEstado().GetId())) {
+
+				switch (TBusqueda) {
+				case BusquedaEnAnchura:
+				case BusquedaDeCostoUniforme:
+					anadido = false;
+					break;
+				case BusquedaEnProfundidad:
+				case BusquedaVoraz:
+				case BusquedaAAsterisco:
+					if (rec.GetCamino() < nodo.GetCamino()) {
+						anadido = false;
+					}
+					break;
+				}
 			}
 		}
 

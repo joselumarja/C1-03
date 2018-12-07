@@ -6,37 +6,6 @@ import java.util.ArrayList;
  */
 
 public class MetodosDeBusqueda {
-	/*
-	 * public static ArrayList<Nodo> BusquedaEnProfundidadIterativa(Problema Prob,
-	 * Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max, int Inc_Prof) { int
-	 * ProfundidadMaxima = Inc_Prof; boolean Salir = false; ArrayList<Nodo>
-	 * PendientesSiguienteIteracion = new ArrayList<Nodo>(); while (!Salir) { Nodo n
-	 * = front.Elimina(); if (n.GetProfundidad() <= ProfundidadMaxima) {
-	 * Prob.anadirVisitado(n); if (Prob.esObjetivo(n.GetEstado())) { return
-	 * CreaSolucion(n); } else { ArrayList<Sucesor> LS =
-	 * Prob.getEspacioDeEstados().sucesores(n.GetEstado()); ArrayList<Nodo> LN =
-	 * CreaListaNodosArbol(LS, front, Prob, n, TBusqueda, Prof_Max);
-	 * 
-	 * for (Nodo Hijo : LN) {
-	 * 
-	 * front.Insertar(Hijo);
-	 * 
-	 * }
-	 * 
-	 * } } else { PendientesSiguienteIteracion.add(n); }
-	 * 
-	 * if (front.EsVacia()) { if (!PendientesSiguienteIteracion.isEmpty()) {
-	 * front.InsertaLista(PendientesSiguienteIteracion);
-	 * PendientesSiguienteIteracion.clear(); ProfundidadMaxima += Inc_Prof;
-	 * 
-	 * } else { Salir = true; }
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * return null; }
-	 */
 
 	/*
 	 * Metodo que genera el arbol de busqueda hasta una profundidad maxima pasada
@@ -73,15 +42,23 @@ public class MetodosDeBusqueda {
 	public static ArrayList<Nodo> Busqueda(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max,
 			int Inc_Prof) {
 		ArrayList<Nodo> solucion = null;
-		Nodo n_inicial;
+		Nodo n_inicial = null;
+		
 		// Se crea el nodo raiz
-		if(TBusqueda == TipoDeBusqueda.BusquedaVoraz || TBusqueda == TipoDeBusqueda.BusquedaAAsterisco) {
-			n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, Prob.getEstadoIn().GetH(), "None ");
-		}else{
+		switch (TBusqueda) {
+		case BusquedaEnAnchura:
+		case BusquedaEnProfundidad:
+		case BusquedaDeCostoUniforme:
 			n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, 0, "None ");
+			break;
+		case BusquedaVoraz:
+		case BusquedaAAsterisco:
+			n_inicial = new Nodo(null, Prob.getEstadoIn(), 0, 0, Prob.getEstadoIn().GetH(), "None ");
+			break;
 		}
+
 		// Añadimos el nodo raiz a la lista de visitados
-		Prob.anadirVisitado(n_inicial);
+		Prob.anadirVisitado(n_inicial, TBusqueda);
 		// Insertamos el nodo raiz a la frontera
 		front.Insertar(n_inicial);
 		int Prof_Actual = Inc_Prof;
@@ -96,7 +73,7 @@ public class MetodosDeBusqueda {
 				Prob.LimpiarVisitados();
 				front.CreaFrontera();
 				// Añadimos el nodo raiz a la lista de visitados y a la frontera
-				Prob.anadirVisitado(n_inicial);
+				Prob.anadirVisitado(n_inicial, TBusqueda);
 				front.Insertar(n_inicial);
 			}
 			Prof_Actual += Inc_Prof;
@@ -129,9 +106,7 @@ public class MetodosDeBusqueda {
 				case BusquedaDeCostoUniforme:
 					f = n_actual.GetCamino() + s.getCoste();
 					break;
-				case BusquedaEnProfundidadSimple:
-				case BusquedaEnProfundidadAcotada:
-				case BusquedaEnProfundidadIterativa:
+				case BusquedaEnProfundidad:
 					f = -(n_actual.GetProfundidad() + 1);
 					break;
 				case BusquedaVoraz:
@@ -144,7 +119,7 @@ public class MetodosDeBusqueda {
 				// Creamos el nuevo nodo sucesor
 				n_sucesor = new Nodo(n_actual, s.getEstadoNuevo(), s.getCoste() + n_actual.GetCamino(),
 						n_actual.GetProfundidad() + 1, f, s.getAccion());
-				if (Prob.anadirVisitado(n_sucesor)) {
+				if (Prob.anadirVisitado(n_sucesor, TBusqueda)) {
 					// Si el nodo sucesor aun no se ha visitado o ya se ha visitado pero tiene una f
 					// mejor se añade a la lista de nodos que se deben expandir en el arbol de
 					// busqueda
@@ -154,30 +129,6 @@ public class MetodosDeBusqueda {
 		}
 		return LN;
 	}
-	/*
-	 * public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS,
-	 * Frontera front, Problema Prob, Nodo n_actual, TipoDeBusqueda TBusqueda, int
-	 * Prof_Max) { Nodo n_sucesor; double f = 0; String id; ArrayList<Nodo> LN =
-	 * null; if (n_actual.GetProfundidad() < Prof_Max) { LN = new ArrayList<Nodo>();
-	 * Prob.IncrementarGenerados(LS.size()); for (Sucesor s : LS) { id =
-	 * s.getEstadoNuevo().GetId(); if (!front.ContieneElNodo(id) &&
-	 * !Prob.EstaVisitado(id)) { switch (TBusqueda) { case BusquedaEnAnchura: f =
-	 * n_actual.GetProfundidad() + 1; break; case BusquedaDeCostoUniforme: f =
-	 * n_actual.GetCamino() + s.getCoste(); break; case BusquedaEnProfundidadSimple:
-	 * case BusquedaEnProfundidadAcotada: case BusquedaEnProfundidadIterativa: f =
-	 * -(n_actual.GetProfundidad() + 1); break; case BusquedaVoraz: f =
-	 * n_actual.GetEstado().GetH(); break; case BusquedaAAsterisco: f =
-	 * n_actual.GetEstado().GetH() + n_actual.GetCamino(); break; } n_sucesor = new
-	 * Nodo(n_actual, s.getEstadoNuevo(), s.getCoste() + n_actual.GetCamino(),
-	 * n_actual.GetProfundidad() + 1, f, s.getAccion()); LN.add(n_sucesor); } } }
-	 * return LN; }
-	 */
-	/*
-	 * public static void quitarNodosVisitados(ArrayList<Nodo> LN, Problema Prob) {
-	 * int ini = 0, fin = LN.size(); while (ini < fin) { if
-	 * (Prob.anadirVisitado(LN.get(ini))) { ini++; } else { LN.remove(ini); fin--; }
-	 * } }
-	 */
 
 	/*
 	 * Metodo que obtiene y devuelve la solucion (el camino a recorrer para llegar
