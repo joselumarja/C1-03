@@ -1,8 +1,8 @@
 La solucion es:
 Estrategia:A*
-Total Nodos Recorridos:4853
-Total Nodos Generados:8698
-Tiempo de ejecucion:11.638
+Total Nodos Recorridos:9828
+Total Nodos Generados:20662
+Tiempo de ejecucion:9.152
 Profundidad:83
 Costo:7324.8
 

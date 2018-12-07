@@ -94,8 +94,10 @@ public class main {
 		int Prof_Max = solicitarNumero("Introduce la profundidad máxima: ");
 		int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
 		if (Inc_Prof > Prof_Max) {
-			Prof_Max = solicitarNumero(
-					"La profundidad máxima debe ser mayor o igual al incremento de profundidad\nIntroduce el incremento de profundidad: ");
+			int aux = Inc_Prof;
+			Inc_Prof = Prof_Max;
+			Prof_Max = aux;
+			System.out.println("Profundidad maxima: " + Prof_Max + "\nIncremento de la profundidad: " + Inc_Prof);
 		}
 		solucion = MetodosDeBusqueda.Busqueda(Prob, frontera, TBusqueda, Prof_Max, Inc_Prof);
 
@@ -134,7 +136,7 @@ public class main {
 
 			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Recorridos:"
 					+ Prob.getRecorridos().size() + "\r\nTotal Nodos Generados:" + Prob.GetGenerados()
-					+ "\r\nTiempo de ejecucion:" + TEjecucion/1000 + "\r\nProfundidad:"
+					+ "\r\nTiempo de ejecucion:" + TEjecucion / 1000 + "\r\nProfundidad:"
 					+ solucion.get(solucion.size() - 1).GetProfundidad() + "\r\nCosto:" + coste + "\r\n\r\n");
 			for (int i = 0; i < solucion.size(); i++) {
 				nodo = solucion.get(i);
