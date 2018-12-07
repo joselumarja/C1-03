@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -42,7 +41,7 @@ public class Problema {
 			while ((line = reader.readLine()) != null) {
 				content.append(line).append("\n");
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -63,7 +62,6 @@ public class Problema {
 		// del JsonObjeto del estado del estado inicial)
 		String id = estadoOrigen.get("id").getAsString();
 
-		path = path + ".xml";
 		// Creamos el espacio de estados a partir del nombre del archivo .graphml a leer
 		this.espacioDeEstados = new EspacioDeEstados(path);
 
