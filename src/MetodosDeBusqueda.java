@@ -11,33 +11,55 @@ public class MetodosDeBusqueda {
 	 * Metodo que genera el arbol de busqueda hasta una profundidad maxima pasada
 	 * como parametro o hasta que se encuentra una solucion
 	 */
-	public static ArrayList<Nodo> BusquedaAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda,
-			int Prof_Max) {
+	public static ArrayList<Nodo> BusquedaAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max,
+			int Inc_Prof) {
+		boolean salir = false;
+		int Prof_Act = Inc_Prof;
+		ArrayList<Nodo> PendientesSiguienteIteracion = new ArrayList<Nodo>();
+		do {
+			while (!front.EsVacia()) {
+				// Si la frontera no esta vacia se coge el primer nodo de la frontera
+				Nodo n = front.Elimina();
 
-		while (!front.EsVacia()) {
-			// Si la frontera no esta vacia se coge el primer nodo de la frontera
-			Nodo n = front.Elimina();
-
-			// comprobamos si en tiempo de ejecucion se ha encontrado un camino que pase por
-			// el mismo nodo pero sea mas corto
-			if (!n.CaminoPodado()) {
-				if (Prob.esObjetivo(n.GetEstado())) {
-					// Si el nodo cogido de la frontera es objetivo se crea la solucion y se
-					// devuelve
-					return CreaSolucion(n);
-				} else {
-					// Genera la lista de sucesores a partir del estado de un nodo cogido de la
-					// frontera
-					ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n.GetEstado());
-					// Genera la lista de nodos sucesores a partir de la lista de sucesores
-					ArrayList<Nodo> LN = CreaListaNodosArbol(LS, front, Prob, n, TBusqueda, Prof_Max);
-					if (LN != null)
-						// Insertamos la lista de nodos por expandir en la frontera
-						front.InsertaLista(LN);
+				// comprobamos si en tiempo de ejecucion se ha encontrado un camino que pase por
+				// el mismo nodo pero sea mas corto
+				if (!n.CaminoPodado()) {
+					if (Prob.esObjetivo(n.GetEstado())) {
+						// Si el nodo cogido de la frontera es objetivo se crea la solucion y se
+						// devuelve
+						return CreaSolucion(n);
+					} else {
+						// Genera la lista de sucesores a partir del estado de un nodo cogido de la
+						// frontera
+						ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n.GetEstado());
+						// Genera la lista de nodos sucesores a partir de la lista de sucesores
+						ArrayList<Nodo> LN = CreaListaNodosArbol(LS, front, Prob, n, TBusqueda, Prof_Act,
+								PendientesSiguienteIteracion);
+						if (LN != null)
+							// Insertamos la lista de nodos por expandir en la frontera
+							front.InsertaLista(LN);
+					}
 				}
 			}
 
-		}
+			if (PendientesSiguienteIteracion.size() > 0 && Prof_Act < Prof_Max) {
+
+				if (Prof_Act + Inc_Prof > Prof_Max) {
+					Prof_Act = Prof_Max;
+				}
+
+				else {
+					Prof_Act += Inc_Prof;
+				}
+
+				front.InsertaLista(PendientesSiguienteIteracion);
+				PendientesSiguienteIteracion = new ArrayList<Nodo>();
+			} else {
+				salir = true;
+			}
+
+		} while (!salir);
+
 		return null;
 	}
 
@@ -68,29 +90,13 @@ public class MetodosDeBusqueda {
 		Prob.anadirVisitado(n_inicial, TBusqueda);
 		// Insertamos el nodo raiz a la frontera
 		front.Insertar(n_inicial);
-		int Prof_Actual = Inc_Prof;
-		while (solucion == null && Prof_Actual <= Prof_Max) {
 
-			//Comprueba que no se exceda el incremento de profundidad
-			if (Prof_Actual > Prof_Max)
-				Prof_Actual = Prof_Max;
+		// se llama al metodo BusquedaAcotada para encontrar una solucion
 
-			// Si aun no hemos encontrado una solucion y aun no se ha llegado a la
-			// profundidad maxima se llama al metodo BusquedaAcotada para encontrar una
-			// solucion
-			solucion = BusquedaAcotada(Prob, front, TBusqueda, Prof_Actual);
-			if (solucion == null) {
-				// Si no se ha encontrado una solucion se limpia la lista de visitados y la
-				// frontera inicializandolas vacias
-				Prob.LimpiarVisitados();
-				front.CreaFrontera();
-				// Añadimos el nodo raiz a la lista de visitados y a la frontera
-				Prob.anadirVisitado(n_inicial, TBusqueda);
-				front.Insertar(n_inicial);
-			}
-			Prof_Actual += Inc_Prof;
-		}
+		solucion = BusquedaAcotada(Prob, front, TBusqueda, Prof_Max, Inc_Prof);
+
 		return solucion;
+
 	}
 
 	/*
@@ -99,7 +105,7 @@ public class MetodosDeBusqueda {
 	 * a partir de la lista de sucesores
 	 */
 	public static ArrayList<Nodo> CreaListaNodosArbol(ArrayList<Sucesor> LS, Frontera front, Problema Prob,
-			Nodo n_actual, TipoDeBusqueda TBusqueda, int Prof_Max) {
+			Nodo n_actual, TipoDeBusqueda TBusqueda, int Prof_Max, ArrayList<Nodo> PendientesSiguienteIteracion) {
 		Nodo n_sucesor;
 		double f = 0;
 		ArrayList<Nodo> LN = null;
@@ -138,6 +144,8 @@ public class MetodosDeBusqueda {
 					LN.add(n_sucesor);
 				}
 			}
+		} else {
+			PendientesSiguienteIteracion.add(n_actual);
 		}
 		return LN;
 	}

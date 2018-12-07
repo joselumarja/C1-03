@@ -126,8 +126,10 @@ public class main {
 		int Inc_Prof = solicitarNumero("Introduce el incremento de profundidad: ");
 		// Si la profundidad maxima es menor que el incremento se vuelve a solicitar
 		if (Inc_Prof > Prof_Max) {
-			Prof_Max = solicitarNumero(
-					"La profundidad máxima debe ser mayor o igual al incremento de profundidad\nIntroduce el incremento de profundidad: ");
+			int aux = Inc_Prof;
+			Inc_Prof = Prof_Max;
+			Prof_Max = aux;
+			System.out.println("Profundidad maxima: " + Prof_Max + "\nIncremento de la profundidad: " + Inc_Prof);
 		}
 		System.out.println("Buscando una solucion...");
 		// Se llama al metodo Busqueda para buscar una solucion
