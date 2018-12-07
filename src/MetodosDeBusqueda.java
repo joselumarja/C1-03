@@ -11,14 +11,16 @@ public class MetodosDeBusqueda {
 	 * Metodo que genera el arbol de busqueda hasta una profundidad maxima pasada
 	 * como parametro o hasta que se encuentra una solucion
 	 */
-	public static ArrayList<Nodo> BusquedaAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max) {
+	public static ArrayList<Nodo> BusquedaAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda,
+			int Prof_Max) {
 
 		while (!front.EsVacia()) {
 			// Si la frontera no esta vacia se coge el primer nodo de la frontera
 			Nodo n = front.Elimina();
 
-			 //comprobamos si en tiempo de ejecucion se ha encontrado un camino que pase por el mismo nodo pero sea mas corto
-			if(!n.CaminoPodado()) {
+			// comprobamos si en tiempo de ejecucion se ha encontrado un camino que pase por
+			// el mismo nodo pero sea mas corto
+			if (!n.CaminoPodado()) {
 				if (Prob.esObjetivo(n.GetEstado())) {
 					// Si el nodo cogido de la frontera es objetivo se crea la solucion y se
 					// devuelve
@@ -34,7 +36,7 @@ public class MetodosDeBusqueda {
 						front.InsertaLista(LN);
 				}
 			}
-			
+
 		}
 		return null;
 	}
@@ -44,7 +46,8 @@ public class MetodosDeBusqueda {
 	 * de no encontrar solucion en la primera iteracion) e inicializa la frontera y
 	 * la lista de visitados
 	 */
-	public static ArrayList<Nodo> Busqueda(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max, int Inc_Prof) {
+	public static ArrayList<Nodo> Busqueda(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max,
+			int Inc_Prof) {
 		ArrayList<Nodo> solucion = null;
 		Nodo n_inicial = null;
 
@@ -67,6 +70,11 @@ public class MetodosDeBusqueda {
 		front.Insertar(n_inicial);
 		int Prof_Actual = Inc_Prof;
 		while (solucion == null && Prof_Actual <= Prof_Max) {
+
+			//Comprueba que no se exceda el incremento de profundidad
+			if (Prof_Actual > Prof_Max)
+				Prof_Actual = Prof_Max;
+
 			// Si aun no hemos encontrado una solucion y aun no se ha llegado a la
 			// profundidad maxima se llama al metodo BusquedaAcotada para encontrar una
 			// solucion
