@@ -13,6 +13,7 @@ public class Nodo {
 	private int P; // Profundidad a la que se encuentra el nodo
 	private double F; // Valor en la frontera
 	private String Accion; // Accion que se ha realizado para ir del nodo padre a dicho nodo
+	private boolean RamaPodada;
 
 	/*
 	 * Constructor de la clase Nodo la cual crea una instancia de dicha clase con un
@@ -26,6 +27,7 @@ public class Nodo {
 		this.F = F;
 		this.Camino = Camino;
 		this.Accion = Accion;
+		RamaPodada=false;
 	}
 
 	/*
@@ -41,6 +43,18 @@ public class Nodo {
 	 */
 	public Nodo getPadre() {
 		return Padre;
+	}
+	
+	public boolean CaminoPodado() 
+	{
+		if(RamaPodada) return true;
+		if(Padre == null) return false;
+		return Padre.CaminoPodado();
+	}
+	
+	public void PodarCamino() 
+	{
+		RamaPodada=true;
 	}
 
 	/*

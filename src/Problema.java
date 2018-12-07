@@ -115,32 +115,33 @@ public class Problema {
 	 * pero que sea peor que el nodo que se quiere añadir
 	 */
 	public boolean anadirVisitado(Nodo nodo, TipoDeBusqueda TBusqueda) {
-		boolean anadido = true;
 
 		for (Nodo rec : recorridos) {
 			if (rec.GetEstado().GetId().equals(nodo.GetEstado().GetId())) {
 
 				switch (TBusqueda) {
 				case BusquedaEnAnchura:
-				case BusquedaDeCostoUniforme:
-					anadido = false;
-					break;
 				case BusquedaEnProfundidad:
+					return false;
+
+				case BusquedaDeCostoUniforme:
 				case BusquedaVoraz:
 				case BusquedaAAsterisco:
-					if (rec.GetCamino() < nodo.GetCamino()) {
-						anadido = false;
+					if (rec.GetCamino() <= nodo.GetCamino()) {
+						
+						return false;
+					}else{
+						//Descartamos el camino a dicho nodo por ser mas largo que el nuevo
+						rec.PodarCamino();
 					}
 					break;
 				}
 			}
 		}
 
-		if (anadido) {
-			recorridos.add(nodo);
-		}
+		recorridos.add(nodo);
 
-		return anadido;
+		return true;
 	}
 
 	/*

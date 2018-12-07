@@ -42,25 +42,28 @@ public class main {
 		}
 
 		Problema Prob = new Problema(archivoProblema);
+
+		double TEjecucion;
+
+		TEjecucion = System.currentTimeMillis();
 		ArrayList<Nodo> solucion = Resolver(Prob, TBusqueda);
+		TEjecucion = System.currentTimeMillis() - TEjecucion;
 
 		if (solucion == null)
-			System.out.println(
-					"No se ha encontrado solucion y se han generado " + Prob.getRecorridos().size() + " nodos");
-		else
-			imprimir(solucion, TBusqueda, Prob);
-		crearGPX(solucion, TBusqueda, Prob);
+			System.out.println("No se ha encontrado solucion y se han generado " + Prob.GetGenerados() + " nodos");
+		else {
+			imprimir(solucion, TBusqueda, Prob, TEjecucion);
+			crearGPX(solucion, TBusqueda, Prob);
+		}
+
 	}
 
 	public static int solicitarEstrategia() {
 		int opcion;
 		System.out.println("Estrategias de busqueda:");
-		System.out
-				.println("1. Estrategia de busqueda en anchura\n" 
-						+ "2. Estrategia de busqueda en profundidad\n"
-						+ "3. Estrategia de busqueda en coste uniforme\n" 
-						+ "4. Estrategia de busqueda Voraz\n"
-						+ "5. Estrategia de busqueda A*\n");
+		System.out.println("1. Estrategia de busqueda en anchura\n" + "2. Estrategia de busqueda en profundidad\n"
+				+ "3. Estrategia de busqueda en coste uniforme\n" + "4. Estrategia de busqueda Voraz\n"
+				+ "5. Estrategia de busqueda A*\n");
 		do {
 
 			opcion = solicitarNumero("Introduce el numero de una estrategia de busqueda (1-5): ");
@@ -73,12 +76,11 @@ public class main {
 	public static int solicitarNumero(String solicitud) {
 		int numero = -1;
 		do {
-			try 
-			{
+			try {
 				System.out.print(solicitud);
 				numero = sc.nextInt();
 			} catch (Exception e) {
-				
+
 			}
 
 		} while (numero <= 0);
@@ -100,7 +102,7 @@ public class main {
 		return solucion;
 	}
 
-	public static void imprimir(ArrayList<Nodo> solucion, TipoDeBusqueda TBusqueda, Problema Prob) {
+	public static void imprimir(ArrayList<Nodo> solucion, TipoDeBusqueda TBusqueda, Problema Prob, double TEjecucion) {
 		String estrategiaCadena = "";
 		Nodo nodo;
 		switch (TBusqueda) {
@@ -108,7 +110,7 @@ public class main {
 			estrategiaCadena = "Anchura";
 			break;
 		case BusquedaEnProfundidad:
-			estrategiaCadena = "Profundidad Simple";
+			estrategiaCadena = "Profundidad";
 			break;
 		case BusquedaDeCostoUniforme:
 			estrategiaCadena = "Coste Uniforme";
@@ -132,8 +134,8 @@ public class main {
 
 			pw.println("La solucion es:\r\nEstrategia:" + estrategiaCadena + "\r\nTotal Nodos Recorridos:"
 					+ Prob.getRecorridos().size() + "\r\nTotal Nodos Generados:" + Prob.GetGenerados()
-					+ "\r\nProfundidad:" + solucion.get(solucion.size() - 1).GetProfundidad() + "\r\nCosto:" + coste
-					+ "\r\n\r\n");
+					+ "\r\nTiempo de ejecucion:" + TEjecucion/1000 + "\r\nProfundidad:"
+					+ solucion.get(solucion.size() - 1).GetProfundidad() + "\r\nCosto:" + coste + "\r\n\r\n");
 			for (int i = 0; i < solucion.size(); i++) {
 				nodo = solucion.get(i);
 				pw.println(nodo);

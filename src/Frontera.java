@@ -75,5 +75,13 @@ public class Frontera {
 		}
 		return false;
 	}
+	
+	public String toString() {
+		String f="";
+		for(Nodo n:frontera) {
+			f=n.toString()+" ";
+		}
+		return f;
+	}
 
 }

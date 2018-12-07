@@ -11,25 +11,30 @@ public class MetodosDeBusqueda {
 	 * Metodo que genera el arbol de busqueda hasta una profundidad maxima pasada
 	 * como parametro o hasta que se encuentra una solucion
 	 */
-	public static ArrayList<Nodo> BusquedaAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda,
-			int Prof_Max) {
+	public static ArrayList<Nodo> BusquedaAcotada(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max) {
+
 		while (!front.EsVacia()) {
 			// Si la frontera no esta vacia se coge el primer nodo de la frontera
 			Nodo n = front.Elimina();
-			if (Prob.esObjetivo(n.GetEstado())) {
-				// Si el nodo cogido de la frontera es objetivo se crea la solucion y se
-				// devuelve
-				return CreaSolucion(n);
-			} else {
-				// Genera la lista de sucesores a partir del estado de un nodo cogido de la
-				// frontera
-				ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n.GetEstado());
-				// Genera la lista de nodos sucesores a partir de la lista de sucesores
-				ArrayList<Nodo> LN = CreaListaNodosArbol(LS, front, Prob, n, TBusqueda, Prof_Max);
-				if (LN != null)
-					// Insertamos la lista de nodos por expandir en la frontera
-					front.InsertaLista(LN);
+
+			 //comprobamos si en tiempo de ejecucion se ha encontrado un camino que pase por el mismo nodo pero sea mas corto
+			if(!n.CaminoPodado()) {
+				if (Prob.esObjetivo(n.GetEstado())) {
+					// Si el nodo cogido de la frontera es objetivo se crea la solucion y se
+					// devuelve
+					return CreaSolucion(n);
+				} else {
+					// Genera la lista de sucesores a partir del estado de un nodo cogido de la
+					// frontera
+					ArrayList<Sucesor> LS = Prob.getEspacioDeEstados().sucesores(n.GetEstado());
+					// Genera la lista de nodos sucesores a partir de la lista de sucesores
+					ArrayList<Nodo> LN = CreaListaNodosArbol(LS, front, Prob, n, TBusqueda, Prof_Max);
+					if (LN != null)
+						// Insertamos la lista de nodos por expandir en la frontera
+						front.InsertaLista(LN);
+				}
 			}
+			
 		}
 		return null;
 	}
@@ -39,11 +44,10 @@ public class MetodosDeBusqueda {
 	 * de no encontrar solucion en la primera iteracion) e inicializa la frontera y
 	 * la lista de visitados
 	 */
-	public static ArrayList<Nodo> Busqueda(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max,
-			int Inc_Prof) {
+	public static ArrayList<Nodo> Busqueda(Problema Prob, Frontera front, TipoDeBusqueda TBusqueda, int Prof_Max, int Inc_Prof) {
 		ArrayList<Nodo> solucion = null;
 		Nodo n_inicial = null;
-		
+
 		// Se crea el nodo raiz
 		switch (TBusqueda) {
 		case BusquedaEnAnchura:
@@ -110,10 +114,10 @@ public class MetodosDeBusqueda {
 					f = -(n_actual.GetProfundidad() + 1);
 					break;
 				case BusquedaVoraz:
-					f = n_actual.GetEstado().GetH();
+					f = s.getEstadoNuevo().GetH();
 					break;
 				case BusquedaAAsterisco:
-					f = n_actual.GetEstado().GetH() + n_actual.GetCamino() + s.getCoste();
+					f = s.getEstadoNuevo().GetH() + n_actual.GetCamino();
 					break;
 				}
 				// Creamos el nuevo nodo sucesor
