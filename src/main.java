@@ -57,6 +57,7 @@ public class main {
 		
 		ArrayList<Punto> NodosObjetivosProblema=Prob.getEstadoIn().getListNodes();
 		
+		
 		double TEjecucion;
 
 		// Se cuenta el tiempo de ejecucion
@@ -64,6 +65,11 @@ public class main {
 		// Resolvemos el problema
 		ArrayList<Nodo> solucion = Resolver(Prob, TBusqueda);
 		TEjecucion = System.currentTimeMillis() - TEjecucion;
+		// Si se quiere conocer los sucesores de un estado independiente, descomentar el codigo de abajo e introducir el osmid
+		// del nodo y en el metodo introducir los nodos de la lista de nodos
+		
+		/* System.out.println("Sucesores de estado independiente:");
+		sucesorEstadoInd(Prob, "4331489739");*/
 
 		if (solucion == null)
 			// Si no se encuentra solucion se indica por pantalla
@@ -79,6 +85,26 @@ public class main {
 			MetodosDeBusqueda.OrdenObjetivos(NodosObjetivosProblema, solucion);
 		}
 
+	}
+	
+	public static void sucesorEstadoInd(Problema prob, String osmid) {
+		Estado est;
+		ArrayList<Sucesor> sucesores;
+		Punto p1, p2;
+		ArrayList<Punto> puntos = new ArrayList<Punto>();
+		
+		p1 = prob.getEspacioDeEstados().getPunto("4331431334");
+		p2 = prob.getEspacioDeEstados().getPunto("4331489683");
+		puntos.add(p1);
+		puntos.add(p2);
+		
+		
+		est = new Estado(prob.getEspacioDeEstados().getGrafo().getGrafo().getVertex(osmid).getElement(), puntos, "0");
+		sucesores = prob.getEspacioDeEstados().sucesores(est);
+		
+		for(Sucesor s : sucesores) {
+			System.out.println(s.getAccion());
+		}
 	}
 
 	/*
