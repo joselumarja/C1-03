@@ -119,9 +119,9 @@ public class Problema {
 
 				switch (TBusqueda) {
 				case BusquedaEnAnchura:
-				case BusquedaEnProfundidad:
 					return false;
 
+				case BusquedaEnProfundidad:
 				case BusquedaDeCostoUniforme:
 				case BusquedaVoraz:
 				case BusquedaAAsterisco:

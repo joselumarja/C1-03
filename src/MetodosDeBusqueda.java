@@ -164,5 +164,14 @@ public class MetodosDeBusqueda {
 		}
 		return solucion;
 	}
+	
+	public static void OrdenObjetivos(ArrayList<Punto> objetivos, ArrayList<Nodo> solucion) {
+		for(Nodo n:solucion) {
+			if(objetivos.contains(n.GetEstado().GetNode())){
+				System.out.println(n.toString());
+				objetivos.remove(n.GetEstado().GetNode());
+			}
+		}
+	}
 
 }

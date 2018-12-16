@@ -54,7 +54,9 @@ public class main {
 
 		// Se crea el problema
 		Problema Prob = new Problema(archivoProblema);
-
+		
+		ArrayList<Punto> NodosObjetivosProblema=Prob.getEstadoIn().getListNodes();
+		
 		double TEjecucion;
 
 		// Se cuenta el tiempo de ejecucion
@@ -73,6 +75,8 @@ public class main {
 			imprimir(solucion, TBusqueda, Prob, TEjecucion);
 			// Se crea un .gpx de la solucion
 			crearGPX(solucion, TBusqueda, Prob);
+			
+			MetodosDeBusqueda.OrdenObjetivos(NodosObjetivosProblema, solucion);
 		}
 
 	}
