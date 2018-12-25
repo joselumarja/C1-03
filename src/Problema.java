@@ -26,6 +26,10 @@ public class Problema {
 		recorridos = new ArrayList<Nodo>();
 		NodosGenerados = 0;
 	}
+	
+	public ArrayList<Sucesor> getSucesores(Estado e){
+		return espacioDeEstados.sucesores(e);
+	}
 
 	/*
 	 * Metodo que lee el problema que se nos plantea en el archivo .json Almacena el

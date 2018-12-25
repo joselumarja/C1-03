@@ -42,6 +42,14 @@ public class Estado {
 	public ArrayList<Punto> getListNodes() {
 		return listNodes;
 	}
+	
+	public String getListNodesToString() {
+		String x="[";
+		for (Punto n:listNodes) {
+			x+=n.getID()+", ";
+		}
+		return x+="]";
+	}
 
 	/*
 	 * Metodo que cambia el estado a partir del punto al cual queremos llegar

@@ -41,4 +41,8 @@ public class Sucesor {
 	public double getCoste() {
 		return coste;
 	}
+	
+	public String toString() {
+		return accion+", ("+estadoNuevo.GetNode().getID()+", "+estadoNuevo.getListNodesToString()+"),"+coste;
+	}
 }

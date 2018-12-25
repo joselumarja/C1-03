@@ -16,6 +16,10 @@ public class Punto implements Element {
 	public Punto() {
 
 	}
+	
+	public Punto(String osmid) {
+		this.osmid=osmid;
+	}
 
 	/**
 	 * Metodo get que devuelve un identificador unico para representar un punto del

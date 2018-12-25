@@ -57,6 +57,15 @@ public class main {
 		
 		ArrayList<Punto> NodosObjetivosProblema=Prob.getEstadoIn().getListNodes();
 		
+		System.out.println();
+		ArrayList<Punto> z=new ArrayList<Punto>();
+		z.add(new Punto("326059362"));
+		z.add(new Punto("1911227547"));
+		ArrayList<Sucesor> s=Prob.getSucesores(new Estado(new Punto("326059720"), z, ""));
+		for(Sucesor f:s) {
+			System.out.println(f.toString());
+		}
+		
 		double TEjecucion;
 
 		// Se cuenta el tiempo de ejecucion

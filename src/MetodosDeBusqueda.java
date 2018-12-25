@@ -166,12 +166,26 @@ public class MetodosDeBusqueda {
 	}
 	
 	public static void OrdenObjetivos(ArrayList<Punto> objetivos, ArrayList<Nodo> solucion) {
+		int pares=0;
+		double aux=0,suma=0;
+		boolean sumar=false;
+		String osmid;
 		for(Nodo n:solucion) {
-			if(objetivos.contains(n.GetEstado().GetNode())){
-				System.out.println(n.toString());
-				objetivos.remove(n.GetEstado().GetNode());
+			
+			if(sumar) {
+				suma+=n.GetCamino()-aux;
+				sumar=false;
+				aux=0;
+			}
+			osmid=n.GetEstado().GetNode().getID();
+			if(osmid.charAt(osmid.length()-1)=='0'||osmid.charAt(osmid.length()-1)=='2'||osmid.charAt(osmid.length()-1)=='4'||osmid.charAt(osmid.length()-1)=='6'||osmid.charAt(osmid.length()-1)=='8') {
+				pares++;
+				aux=n.GetCamino();
+				sumar=true;
 			}
 		}
+		System.out.println("N Pares: "+pares);
+		System.out.println("Suma: "+suma);
 	}
 
 }
